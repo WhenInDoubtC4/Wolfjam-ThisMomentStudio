@@ -10,6 +10,8 @@ public class ConnectionManager : MonoBehaviour
     [SerializeField] private float vingnetteIncreaseAmount;
     [SerializeField] private Color[] emoteColors;
 
+    [SerializeField] private ScribbleDisplay displeasureDisplay;
+
     private bool connectionMode;
     private bool connectedBefore;
 
@@ -26,13 +28,13 @@ public class ConnectionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        emoteAnimator = GetComponent<Animator>();
+        //emoteAnimator = GetComponent<Animator>();
         SetRequiredEmote();
     }
     private void SetRequiredEmote()
     {
         //change this to set the emote enum
-        int emoteNum = Random.Range(0, 3);
+        requiredEmote = (EmoteEnum)Random.Range(0, 3);
     }
 
     public bool CanConnect()
@@ -64,11 +66,11 @@ public class ConnectionManager : MonoBehaviour
         lastTriedEmote = emote;
         if(connectionMode)
         {
-            Debug.Log(emote);
             if(!connectedBefore)
             {
                 if (emote == requiredEmote)
                 {
+                    Debug.Log("correct emote!");
                     PerformEmote(requiredEmote);
                 }
                 else
@@ -109,7 +111,7 @@ public class ConnectionManager : MonoBehaviour
     }
     void SetAnimValue(string name, bool value)
     {
-        emoteAnimator.SetBool(name, value);
+        //emoteAnimator.SetBool(name, value);
     }
 
     //this should be called at a certain point in the emote animation
@@ -141,6 +143,9 @@ public class ConnectionManager : MonoBehaviour
     }
     private void DisplayDispleasure()
     {
+        Debug.Log("bad");
         //do whatever is needed to display the cloud thing
+        displeasureDisplay.StartEffect();
     }
+
 }
