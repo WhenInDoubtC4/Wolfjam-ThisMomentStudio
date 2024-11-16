@@ -14,17 +14,19 @@ public class ConnectionManager : MonoBehaviour
     private bool connectedBefore;
 
     //change to enum
-    private int requiredEmote;
+    private EmoteEnum requiredEmote;
+    Animator emoteAnimator;
 
     //change this to be a list of enum
-    private List<int> triedEmotes;
+    private List<EmoteEnum> triedEmotes;
 
-    private int lastTriedEmote;
-
+    private EmoteEnum lastTriedEmote;
+    
 
     // Start is called before the first frame update
     void Start()
     {
+        emoteAnimator = GetComponent<Animator>();
         SetRequiredEmote();
     }
     private void SetRequiredEmote()
@@ -33,34 +35,36 @@ public class ConnectionManager : MonoBehaviour
         int emoteNum = Random.Range(0, 3);
     }
 
+    public bool CanConnect()
+    {
+        return !connectedBefore;
+    }
+
     //functions returns true if connection can be started, false if it can't be started
-    public bool StartConnection(bool player)
+    public void StartConnection(bool player)
     {
         if(player && !connectedBefore)
         {
             connectionMode = true;
-            triedEmotes = new List<int>();
-            return true;
+            triedEmotes = new List<EmoteEnum>();
         }
         else if(!player && connectedBefore)
         {
             PerformEmote(requiredEmote);
-            return true;
         }
         else if(!player)
         {
             //wait for other ai to perform emote
-            return true;
         }
-        return false;
     }
 
     //add enum param for emote that is tried
-    public void TryEmote(int emote)
+    public void TryEmote(EmoteEnum emote)
     {
         lastTriedEmote = emote;
         if(connectionMode)
         {
+            Debug.Log(emote);
             if(!connectedBefore)
             {
                 if (emote == requiredEmote)
@@ -80,9 +84,32 @@ public class ConnectionManager : MonoBehaviour
             }
         }
     }
-    private void PerformEmote(int emote)
+    private void PerformEmote(EmoteEnum emote)
     {
-        //call trigger for emote animation
+        SetAnimValue("Red", false);
+        SetAnimValue("Green", false);
+        SetAnimValue("Blue", false);
+        SetAnimValue("Yellow", false);
+
+        switch (emote)
+        {
+            case EmoteEnum.Red:
+                SetAnimValue("Red", true);
+                break;
+            case EmoteEnum.Green:
+                SetAnimValue("Green", true);
+                break;
+            case EmoteEnum.Blue:
+                SetAnimValue("Blue", true);
+                break;
+            case EmoteEnum.Yellow:
+                SetAnimValue("Yellow", true);
+                break;
+        }
+    }
+    void SetAnimValue(string name, bool value)
+    {
+        emoteAnimator.SetBool(name, value);
     }
 
     //this should be called at a certain point in the emote animation
@@ -98,7 +125,7 @@ public class ConnectionManager : MonoBehaviour
     }
 
     //pass in enum for tried emote
-    private void WrongEmote(int triedEmote)
+    private void WrongEmote(EmoteEnum triedEmote)
     {
         if(!triedEmotes.Contains(triedEmote))
         {
