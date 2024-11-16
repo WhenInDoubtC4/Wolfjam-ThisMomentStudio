@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float maxSpeed = 2f;
 
     float baseDrag;
-    bool moveActivated = false;
 
     [Header("Magnet Variables")]
     [SerializeField] float magnetRadius = 5f;
@@ -25,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
 
     AudioSource audioSource;
 
-    public GameObject magnetTarget = null;
+    GameObject magnetTarget = null;
 
     [Header("Snap Variables")]
     [SerializeField] float distToHardSnap = 0.25f; // this is how far the player has to be from a snap point to snap to it
@@ -50,7 +49,8 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-
+		
+        originalXScale = transform.localScale.x;
         actions = new PlayerActions();
         actions.Enable();
 
@@ -85,8 +85,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 audioSource.Stop();
             }
+        if (canMove)
+        {
+            Move();
         }
 
+        SetRotation();
     }
 
     void UpdateMagnetPull()
@@ -109,7 +113,6 @@ public class PlayerMovement : MonoBehaviour
                     (1 - Vector3.Distance(transform.position, magnetTarget.transform.position) / magnetRadius));
             }
         }
-
     }
 
     // chatgpt 
@@ -166,6 +169,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             // -------------------- SNAPPING MOVEMENT ----------------------- \\
+
             //Debug.Log(Vector2.Distance(connectTarget.SnapPoint.position, transform.position));
 
             if (Vector2.Distance(connectTarget.SnapPoint.position, transform.position) <= distToHardSnap)
@@ -262,14 +266,5 @@ public class PlayerMovement : MonoBehaviour
     {
         currentlySnapping = false;
         emoteHandler.emoteTarget = null;
-    }
-
-    public void SetMoveActivated(bool value)
-    {
-        moveActivated = value;
-        if (!value)
-        {
-            rb.velocity = Vector3.zero;
-        }
     }
 }
