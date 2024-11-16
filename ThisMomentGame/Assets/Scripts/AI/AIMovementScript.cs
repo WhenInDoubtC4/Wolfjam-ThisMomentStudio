@@ -40,11 +40,22 @@ public class AIMovementScript : MonoBehaviour
         //audioSource = GetComponent<AudioSource>();
     }
 
+    private void Start()
+    {
+        agent.targetReached.AddListener(OnTargetReached);
+    }
+
+    private void OnTargetReached()
+    {
+        rb.velocity = Vector2.zero;
+        moveInput = Vector2.zero;
+    }
+
     private void FixedUpdate()
     {
         moveInput = agent.aiMoveInput;
 
-        Debug.Log("MOVE INPUT IS " + moveInput);
+        //Debug.Log("MOVE INPUT IS " + moveInput);
 
         currentMagnetPull = 0;
         if (magnetTarget != null)
