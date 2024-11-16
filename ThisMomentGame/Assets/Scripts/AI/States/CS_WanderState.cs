@@ -27,7 +27,7 @@ public class CS_WanderState : CharacterState
         Debug.Log("Entering CS_WanderState");
 
         //Pick a new point within the target radius
-        Vector3 target = new(Random.Range(2f, wanderRadius), Random.Range(2f, wanderRadius), 0f);
+        Vector3 target = new(Random.Range(1f, wanderRadius), Random.Range(1f, wanderRadius), 0f);
         target += parent.transform.position;
         onWanderTargetPicked.Invoke(target);
 

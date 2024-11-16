@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class CharacterAgent : MonoBehaviour
 {
@@ -27,6 +28,11 @@ public class CharacterAgent : MonoBehaviour
 
     public bool hasColorAssigned { get; private set; } = false;
 
+    public Vector2 aiMoveInput { get; private set; }
+    private Vector3 wanderTarget;
+
+    public UnityEvent targetReached = new();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,7 +56,8 @@ public class CharacterAgent : MonoBehaviour
         wanderState.onWanderTargetPicked.AddListener(OnWanderStateTargetPicked);
         wanderState.onWanderingComplete.AddListener(OnWanderingComplete);
 
-        navAgentComponent = GetComponent<NavMeshAgent>();
+        //navAgentComponent = GetComponent<NavMeshAgent>();
+        navAgentComponent = GetComponentInChildren<NavMeshAgent>();
         if (!navAgentComponent)
         {
             Debug.LogError("Cannot find nav mesh agent component on character agent");
@@ -61,25 +68,35 @@ public class CharacterAgent : MonoBehaviour
         navAgentComponent.updateUpAxis = false;
         navAgentComponent.updateRotation = false;
 
-        navAgentComponent.SetDestination(new Vector3(5f, 5f, transform.position.z));
+        //navAgentComponent.SetDestination(new Vector3(5f, 5f, transform.position.z));
     }
 
     void Update()
     {
         stateMachine.DoUpdate(Time.deltaTime);
+
+        //If reached wander destination abort
+        if ((wanderTarget - transform.position).magnitude <= 1f) navAgentComponent.ResetPath();
     }
 
     private void FixedUpdate()
     {
         stateMachine.DoFixedUpdate(Time.fixedDeltaTime);
+
+        navAgentComponent.gameObject.transform.localPosition = Vector2.zero;
+
+        if ((navAgentComponent.destination - transform.position).magnitude <= 1f) aiMoveInput = Vector2.zero;
+        else aiMoveInput = navAgentComponent.desiredVelocity.normalized;
     }
 
     public void AssignColor()
     {
         //TODO: Stub function for when a color gets assigned to this agent
-        Debug.Log("Color has been assigned");
+        Debug.Log(gameObject.name + "Color has been assigned");
 
         hasColorAssigned = true;
+
+        GetComponent<ColorChanger>().AssignNewColor(Color.red);
 
         //Start seeking
         stateMachine.SwitchStates(seekState);
@@ -117,12 +134,12 @@ public class CharacterAgent : MonoBehaviour
 
     private void OnSeekFoundAgentWithColor(CharacterAgent other)
     {
-        Debug.Log("Seek state found another agent with color already assigned");
+        Debug.Log(gameObject.name + "Seek state found another agent with color already assigned");
     }
 
     private void OnSeekFoundAgentWithoutColor(CharacterAgent other)
     {
-        Debug.Log("Seek state found agent without color assigned");
+        Debug.Log(gameObject.name + "Seek state found agent without color assigned");
 
         //TODO: Perform each other's actions here
 
@@ -131,7 +148,7 @@ public class CharacterAgent : MonoBehaviour
 
     private void OnSeekFoundNothing()
     {
-        Debug.Log("Seek state did not find any other agents");
+        Debug.Log(gameObject.name + "Seek state did not find any other agents");
 
         stateMachine.SwitchStates(wanderState);
     }
@@ -143,18 +160,22 @@ public class CharacterAgent : MonoBehaviour
 
     private void OnGoToFurthestReachedColorlessAgent(CharacterAgent other)
     {
+        navAgentComponent.ResetPath();
+        navAgentComponent.destination = transform.position;
         TryAssignColorToOther(other);
+        targetReached.Invoke();
     }
 
     private void OnWanderStateTargetPicked(Vector3 target)
     {
-        Debug.Log("Going to new wandering target" + target.ToString());
+        Debug.Log(gameObject.name + "Going to new wandering target" + target.ToString());
         navAgentComponent.SetDestination(target);
+        wanderTarget = target;
     }
 
     private void OnWanderingComplete()
     {
-        Debug.Log("Wandering complete, returning to seek state");
+        Debug.Log(gameObject.name + "Wandering complete, returning to seek state");
         stateMachine.SwitchStates(seekState);
     }
 }
