@@ -9,6 +9,8 @@ public class EmoteHandler : MonoBehaviour
     PlayerActions.EmotesActions emoteControls;
 
     [SerializeField] Animator emoteAnimator;
+
+    public GameObject emoteTarget;
   
     // Start is called before the first frame update
     void Start()
@@ -44,6 +46,7 @@ public class EmoteHandler : MonoBehaviour
                 break;
         }
 
+        // use emoteTarget for emote logic.
 
     }
 

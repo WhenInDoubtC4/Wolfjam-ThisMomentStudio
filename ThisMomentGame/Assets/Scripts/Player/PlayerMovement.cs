@@ -23,6 +23,9 @@ public class PlayerMovement : MonoBehaviour
 
     GameObject magnetTarget = null;
 
+    [Header("Object Hookups")]
+    [SerializeField] EmoteHandler emoteHandler;
+
     public PlayerActions actions { get; private set; }
     PlayerActions.PlayerMovementActions playerMovement;
 
@@ -133,18 +136,21 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = Vector2.zero;
             rb.isKinematic = true;
 
+            emoteHandler.emoteTarget = connectTarget.characterObject;
+
             // So normally we should allow the player to run some sort of emote logic before ending the emote
             Invoke("EndEmote", 1f);
             
         }
         else
         {
-            rb.isKinematic = false;
+            EndEmote();
         }
     }
 
     void EndEmote()
     {
         rb.isKinematic = false;
+        emoteHandler.emoteTarget = null;
     }
 }

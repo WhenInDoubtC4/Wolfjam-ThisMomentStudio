@@ -5,6 +5,7 @@ using UnityEngine;
 public class ConnectionPoint : MonoBehaviour
 {
     public Transform SnapPoint;
+    public GameObject characterObject;
 
     // Start is called before the first frame update
     void Start()
