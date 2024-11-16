@@ -8,6 +8,8 @@ using static UnityEngine.InputSystem.DefaultInputActions;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private bool canMove = true;
+
     [Header("Move Variables")]
     [SerializeField] float moveSpeed = 7f;
     [SerializeField] float maxSpeed = 2f;
@@ -42,10 +44,12 @@ public class PlayerMovement : MonoBehaviour
     ConnectionPoint connectTarget;
 
     [SerializeField] private Animator myAnimator;
+    private float originalXScale;
 
     // Start is called before the first frame update
     void Awake()
     {
+        originalXScale = transform.localScale.x;
         actions = new PlayerActions();
         actions.Enable();
 
@@ -62,7 +66,10 @@ public class PlayerMovement : MonoBehaviour
     {
         UpdateMagnetPull();
 
-        Move();
+        if (canMove)
+        {
+            Move();
+        }
 
         SetRotation();
     }
@@ -107,13 +114,51 @@ public class PlayerMovement : MonoBehaviour
         // Check if the angle is within the view cone
         return Mathf.Abs(angleToTarget) <= magnetAngle;
     }
-
-    void Move()
+    void SetWalkingAnimation()
     {
-        if (moveInput != Vector2.zero)
+        if((moveInput != Vector2.zero || currentlySnapping))
         {
+            myAnimator.SetBool("Walking", true);
             //Debug.Log("MOVE IS " + moveInput);
         }
+        else
+        {
+            myAnimator.SetBool("Walking", false);
+        }
+
+        if(rb.velocity.x < 0)
+        {
+            transform.localScale = new Vector3(-originalXScale,transform.localScale.y,transform.localScale.z);
+        }
+        else
+        {
+            transform.localScale = new Vector3(originalXScale, transform.localScale.y, transform.localScale.z);
+        }
+    }
+    public void ToggleMovement(bool enabled)
+    {
+        if (enabled)
+        {
+            canMove = true;
+        }
+        else
+        {
+            rb.velocity = Vector3.zero;
+            canMove = false;
+            myAnimator.SetBool("Walking", false);
+        }
+
+    }
+    private void ReachedConnectionPosition()
+    {
+        currentlySnapping = false;
+        ToggleMovement(false);
+        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+    }
+    void Move()
+    {
+        SetWalkingAnimation();
+        
 
         float speedClamp = maxSpeed;
 
@@ -150,6 +195,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 rb.velocity = Vector2.zero;
                 transform.position = connectTarget.SnapPoint.position;
+                ReachedConnectionPosition();
             }
             else
             {
@@ -238,7 +284,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void EndEmote()
     {
-        currentlySnapping = false;
+        ToggleMovement(true);
         emoteHandler.emoteTarget = null;
     }
 }

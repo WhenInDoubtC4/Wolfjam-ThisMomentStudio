@@ -435,7 +435,7 @@ MonoBehaviour:
   distToHardSnap: 0.25
   snapResistance: 0.65
   emoteHandler: {fileID: 994479141}
-  myAnimator: {fileID: 0}
+  myAnimator: {fileID: 289318426}
 --- !u!58 &994479138
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -971,6 +971,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4691381383639723871, guid: af83d2f7b986251429449c78df124a51, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0f7a6cbf07518e94dbec794b75a6cbd6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
