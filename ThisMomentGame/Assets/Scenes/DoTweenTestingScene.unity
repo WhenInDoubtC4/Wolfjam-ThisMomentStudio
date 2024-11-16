@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 502995132}
   - component: {fileID: 502995135}
   - component: {fileID: 502995134}
+  - component: {fileID: 502995136}
   m_Layer: 0
   m_Name: Square (1)
   m_TagString: Untagged
@@ -237,6 +238,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 502995136}
+          m_TargetAssemblyTypeName: TweenPunch, Assembly-CSharp
+          m_MethodName: TriggerPunch
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!61 &502995135
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -282,6 +295,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &502995136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502995131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2259aae21ff5004b9b13e38bf2c62af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 502995133}
+  scale: 0.2
+  duration: 0.3
+  vibrations: 2
+  elastic: 0.5
 --- !u!1 &956034657
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,6 +597,7 @@ GameObject:
   - component: {fileID: 1541208427}
   - component: {fileID: 1541208430}
   - component: {fileID: 1541208429}
+  - component: {fileID: 1541208431}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -670,6 +701,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 1541208431}
+          m_TargetAssemblyTypeName: TweenPunch, Assembly-CSharp
+          m_MethodName: TriggerPunch
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!61 &1541208430
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -715,6 +758,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1541208431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541208426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2259aae21ff5004b9b13e38bf2c62af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1541208428}
+  scale: 0.2
+  duration: 0.3
+  vibrations: 2
+  elastic: 0.5
 --- !u!1 &2103979804
 GameObject:
   m_ObjectHideFlags: 0
