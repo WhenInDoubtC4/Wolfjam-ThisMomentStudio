@@ -148,7 +148,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void EndEmote()
+    public void EndEmote()
     {
         rb.isKinematic = false;
         emoteHandler.emoteTarget = null;

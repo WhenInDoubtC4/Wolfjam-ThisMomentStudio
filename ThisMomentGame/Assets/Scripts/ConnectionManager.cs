@@ -12,8 +12,12 @@ public class ConnectionManager : MonoBehaviour
 
     [SerializeField] private ScribbleDisplay displeasureDisplay;
 
+    private PlayerMovement player;
+
     private bool connectionMode;
     private bool connectedBefore;
+
+
 
     //change to enum
     private EmoteEnum requiredEmote;
@@ -43,8 +47,12 @@ public class ConnectionManager : MonoBehaviour
     }
 
     //functions returns true if connection can be started, false if it can't be started
-    public void StartConnection(bool player)
+    public void StartConnection(bool isPlayer,PlayerMovement newPlayer)
     {
+        if(isPlayer)
+        {
+            player = newPlayer;
+        }
         if(player && !connectedBefore)
         {
             connectionMode = true;
@@ -108,6 +116,9 @@ public class ConnectionManager : MonoBehaviour
                 SetAnimValue("Yellow", true);
                 break;
         }
+
+
+        FinishConnection();
     }
     void SetAnimValue(string name, bool value)
     {
@@ -117,6 +128,7 @@ public class ConnectionManager : MonoBehaviour
     //this should be called at a certain point in the emote animation
     public void FinishConnection()
     {
+        //change color of ai
         //spriteColor = emoteColors[lastTriedEmote];
 
         connectionMode = false;
@@ -124,6 +136,11 @@ public class ConnectionManager : MonoBehaviour
 
         totalConnections++;
         //give camera total number of connections
+
+        player.EndEmote();
+
+
+        //add function to tell ai connection is over 
     }
 
     //pass in enum for tried emote

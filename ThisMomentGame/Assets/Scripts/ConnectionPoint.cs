@@ -30,7 +30,7 @@ public class ConnectionPoint : MonoBehaviour
             player.GetConnectTarget(this);
 
             //set emote target
-            characterObject.GetComponent<ConnectionManager>().StartConnection(other.gameObject);
+            characterObject.GetComponent<ConnectionManager>().StartConnection(other.gameObject,player);
         }
     }
 
