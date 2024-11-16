@@ -16,13 +16,36 @@ public class GameManager : MonoBehaviour
         } 
     }
 
+    public int colorAssignments { get; private set; } = 0;
+
+    private int npcCount = 0;
+
     private void Awake()
     {
         instance = this;
     }
 
-    void Start()
+    private void Start()
     {
-        //Find all colorless NPCs
+        //Get all NPCs
+
+        CharacterAgent[] agents = FindObjectsByType<CharacterAgent>(FindObjectsSortMode.None);
+        npcCount = agents.Length;
+
+        Debug.Log("Game manager found " +  npcCount + " NPCs");
+    }
+
+    public void IncrementColorAssignments()
+    {
+        colorAssignments++;
+
+        Debug.Log("Game manager: color assignments: " + colorAssignments);
+
+        if (colorAssignments == npcCount) AllNpcsAssigned();
+    }
+
+    public void AllNpcsAssigned()
+    {
+        Debug.Log("Game manager win state: All NPCs have been assigned a color");
     }
 }
