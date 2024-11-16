@@ -61,8 +61,6 @@ public class CharacterAgent : MonoBehaviour
         navAgentComponent.updateUpAxis = false;
         navAgentComponent.updateRotation = false;
 
-        navAgentComponent.SetDestination(testTarget.transform.position);
-
         //TODO: Remove this later
         StartCoroutine(TEMP_AutoAssignColor());
     }
