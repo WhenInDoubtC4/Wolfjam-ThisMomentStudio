@@ -212,7 +212,7 @@ public class ConnectionManager : MonoBehaviour
     {
         Debug.Log("bad");
         //do whatever is needed to display the cloud thing
-        //displeasureDisplay.StartEffect();
+        displeasureDisplay.StartEffect();
     }
 
 
