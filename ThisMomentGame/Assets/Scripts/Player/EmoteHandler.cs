@@ -25,31 +25,26 @@ public class EmoteHandler : MonoBehaviour
 
     void DoEmote(EmoteEnum emote)
     {
-        if (emoteAnimator.GetBool("Red") || emoteAnimator.GetBool("Green") 
-            || emoteAnimator.GetBool("Blue") || emoteAnimator.GetBool("Yellow"))
-        {
-            return;
-        }
         
 
-        SetAnimValue("Red", false);
-        SetAnimValue("Green", false);
-        SetAnimValue("Blue", false);
-        SetAnimValue("Yellow", false);
+        //SetAnimValue("Red", false);
+        //SetAnimValue("Green", false);
+        //SetAnimValue("Blue", false);
+        //SetAnimValue("Yellow", false);
 
         switch (emote)
         {
             case EmoteEnum.Red:
-                SetAnimValue("Red", true);
+                emoteAnimator.SetTrigger("Red");
                 break;
             case EmoteEnum.Green:
-                SetAnimValue("Green", true);
+                emoteAnimator.SetTrigger("Green");
                 break;
             case EmoteEnum.Blue:
-                SetAnimValue("Blue", true);
+                emoteAnimator.SetTrigger("Blue");
                 break;
             case EmoteEnum.Yellow:
-                SetAnimValue("Yellow", true);
+                emoteAnimator.SetTrigger("Yellow");
                 break;
         }
 

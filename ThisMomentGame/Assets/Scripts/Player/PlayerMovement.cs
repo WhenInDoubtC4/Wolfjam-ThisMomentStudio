@@ -43,6 +43,8 @@ public class PlayerMovement : MonoBehaviour
 
     ConnectionPoint connectTarget;
 
+    [SerializeField] private Animator myAnimator;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -193,7 +195,7 @@ public class PlayerMovement : MonoBehaviour
     void SetRotation()
     {
         float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg - 90f; // except for the -90 degree part that was a bugfix by Mason
-        rb.rotation = angle; // This directly sets Rigidbody2D's rotation
+        //rb.rotation = angle; // This directly sets Rigidbody2D's rotation
     }
 
     // these two functions set a magnet for the player that they will basically gravitate towards if they lean into it
