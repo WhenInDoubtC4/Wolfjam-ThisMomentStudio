@@ -28,11 +28,6 @@ public class CameraController : MonoBehaviour
             cam = newCam;
         }
 
-        if(cam != null)
-        {
-            targetZoom = cam.orthographicSize;
-            globalZoom = cam.orthographicSize;
-        }
     }
 
     private void FixedUpdate()
