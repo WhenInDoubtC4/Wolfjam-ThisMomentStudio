@@ -49,22 +49,28 @@ public class ConnectionManager : MonoBehaviour
     {
         return !connectedBefore;
     }
+    public bool Connecting()
+    {
+        return connectionMode;
+    }
 
     //functions returns true if connection can be started, false if it can't be started
     public void StartConnection(bool isPlayer,PlayerMovement newPlayer)
     {
+        connectionMode = true;
         if(isPlayer)
         {
             player = newPlayer;
         }
-        if(player && !connectedBefore)
+        if(isPlayer && !connectedBefore)
         {
-            connectionMode = true;
             triedEmotes = new List<EmoteEnum>();
         }
-        else if(!player && connectedBefore)
+        else if(!isPlayer && connectedBefore)
         {
+            Debug.Log("doing emote on ai");
             PerformEmote(requiredEmote);
+            FinishConnection();
         }
         else if(!player)
         {
@@ -134,7 +140,6 @@ public class ConnectionManager : MonoBehaviour
     {
         //change color of ai
         //spriteColor = emoteColors[lastTriedEmote];
-
         connectionMode = false;
         connectedBefore = true;
 
@@ -198,7 +203,6 @@ public class ConnectionManager : MonoBehaviour
             // snap logic here
             rb.velocity = Vector2.zero;
             rb.isKinematic = true;
-
 
 
             // So normally we should allow the player to run some sort of emote logic before ending the emote

@@ -25,7 +25,10 @@ public class ConnectionPoint : MonoBehaviour
     {
         Debug.Log("TRIGGER ENTER");
         PlayerMovement player = other.GetComponent<PlayerMovement>();
+
+        //can connect is true if the ai hasnt been connected with yet
         bool canConnect = characterObject.GetComponent<ConnectionManager>().CanConnect();
+        bool connecting = characterObject.GetComponent<ConnectionManager>().Connecting();
 
         if (player != null && canConnect)
         {
@@ -33,12 +36,17 @@ public class ConnectionPoint : MonoBehaviour
             onInteract.Invoke();
 
             //set emote target
-            characterObject.GetComponent<ConnectionManager>().StartConnection(other.gameObject,player);
+            characterObject.GetComponent<ConnectionManager>().StartConnection(true,player);
         }
-        else if(other.tag == "AIGuy")
+        else if(other.tag == "AIGuy" && !canConnect && !connecting)
         {
-            characterObject.GetComponent<ConnectionManager>().GetConnectTarget(this);
-            characterObject.GetComponent<ConnectionManager>().TrySnapTarget();
+            //make other ai snap to position
+            other.GetComponent<ConnectionManager>().GetConnectTarget(this);
+            other.GetComponent<ConnectionManager>().TrySnapTarget();
+
+            //make both ai enter connection mode
+            characterObject.GetComponent<ConnectionManager>().StartConnection(false, player);
+            other.GetComponent<ConnectionManager>().StartConnection(false, player);
         }
     }
 
