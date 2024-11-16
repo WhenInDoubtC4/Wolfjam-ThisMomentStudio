@@ -23,29 +23,9 @@ public class ColorChanger : MonoBehaviour
             Debug.LogError("Target sprite is not set, things will not work!");
             return;
         }
-
-        //TODO: Remove this later
-        StartCoroutine(TEMP_TestColorChange());
     }
 
-    IEnumerator TEMP_TestColorChange()
-    {
-        AssignNewColor(Color.red);
-
-        yield return new WaitForSeconds(1f);
-
-        AssignNewColor(Color.blue);
-
-        yield return new WaitForSeconds(1f);
-
-        AssignNewColor(new Color(0.5f, 0.5f, 0f));
-
-        yield return new WaitForSeconds(1f);
-
-        AssignNewColor(Color.green);
-    }
-
-    private void AssignNewColor(Color color, float transitionDuration = 0.5f, float alpha = 1f)
+    public void AssignNewColor(Color color, float transitionDuration = 0.5f, float alpha = 1f)
     {
         Material oldMaterial = targetSprtie.material;
         Color oldColor = oldMaterial.GetColor("_NextColor");

@@ -46,6 +46,6 @@ public class GameManager : MonoBehaviour
 
     public void AllNpcsAssigned()
     {
-        Debug.Log("Game manager win state: All NPCs have been assigned a color");
+        Debug.LogWarning("Game manager win state: All NPCs have been assigned a color");
     }
 }

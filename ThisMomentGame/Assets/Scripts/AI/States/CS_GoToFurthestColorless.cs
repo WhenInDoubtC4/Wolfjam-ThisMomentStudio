@@ -28,7 +28,7 @@ public class CS_GoToFurthestColorless : CharacterState
 
         //Find furthest colorless agent
         float dist = -1f;
-        CharacterAgent target = null;
+        
         foreach (CharacterAgent agent in GameObject.FindObjectsByType<CharacterAgent>(FindObjectsSortMode.None))
         {
             if (agent.hasColorAssigned) continue;
@@ -51,6 +51,7 @@ public class CS_GoToFurthestColorless : CharacterState
 
             checkReachedStartTime = Time.time;
             doReachedCheck = true;
+            return;
         }
     }
 
@@ -65,7 +66,7 @@ public class CS_GoToFurthestColorless : CharacterState
     {
         base.DoUpdate(dt);
 
-        if (!doReachedCheck) return;
+        //if (!doReachedCheck) return;
 
         if (Time.time - checkReachedStartTime > 0.5f)
         {
