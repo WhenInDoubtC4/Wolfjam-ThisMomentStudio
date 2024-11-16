@@ -72,15 +72,14 @@ public class PlayerMovement : MonoBehaviour
         if (moveInput != Vector2.zero)
         {
             if (!audioSource.isPlaying)
-			{
-				audioSource.Play();
-			}
-			else
-			{
-                audioSource.Stop();
+			{               
+                audioSource.Play();                
 			}
 		}
-
+        else
+        {
+            audioSource.Stop();
+        }
     }
 
     void UpdateMagnetPull()
