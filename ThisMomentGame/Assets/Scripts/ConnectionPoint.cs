@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ConnectionPoint : MonoBehaviour
 {
     public Transform SnapPoint;
     public GameObject characterObject;
+    public UnityEvent onInteract= new UnityEvent();
 
     public float triggerRadius { get; private set; }
 
@@ -31,7 +33,15 @@ public class ConnectionPoint : MonoBehaviour
         if (player != null && canConnect)
         {
             player.GetConnectTarget(this);
-            characterObject.GetComponent<ConnectionManager>().StartConnection(other.gameObject);
+            onInteract.Invoke();
+
+            //set emote target
+            characterObject.GetComponent<ConnectionManager>().StartConnection(other.gameObject,player);
+        }
+        else if(other.tag == "AIGuy")
+        {
+            characterObject.GetComponent<ConnectionManager>().GetConnectTarget(this);
+            characterObject.GetComponent<ConnectionManager>().TrySnapTarget();
         }
     }
 

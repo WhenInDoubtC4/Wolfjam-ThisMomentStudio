@@ -225,7 +225,7 @@ public class PlayerMovement : MonoBehaviour
             emoteHandler.emoteTarget = connectTarget.characterObject;
 
             // So normally we should allow the player to run some sort of emote logic before ending the emote
-            Invoke("EndEmote", 1.2f);
+            //Invoke("EndEmote", 1.2f);
             
         }
         else
@@ -234,7 +234,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void EndEmote()
+    public void EndEmote()
     {
         currentlySnapping = false;
         emoteHandler.emoteTarget = null;
