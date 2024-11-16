@@ -15,7 +15,7 @@ public class MagnetScript : MonoBehaviour
     {
         if (other.CompareTag("AIGuy"))
         {
-            Debug.Log("ADDING MAG TARGET");
+            //Debug.Log("ADDING MAG TARGET");
             movement.GetMagnetTarget(other.gameObject);
         }
        
@@ -25,7 +25,7 @@ public class MagnetScript : MonoBehaviour
     {
         if (other.CompareTag("AIGuy"))
         {
-            Debug.Log("BYE MAG TARGET");
+            //Debug.Log("BYE MAG TARGET");
             movement.RemoveMagnetTarget(other.gameObject);
         }
     }
