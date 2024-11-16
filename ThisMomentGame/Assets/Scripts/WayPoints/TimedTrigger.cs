@@ -5,13 +5,22 @@ using UnityEngine.Events;
 
 public class TimedTrigger : MonoBehaviour
 {
+    [SerializeField] int uses = 0;
     [SerializeField] UnityEvent events;
+    
     Coroutine run = null;
+    int used = 0;
 
     public void StartCountdown(float delay)
     {
-        if(run == null)
-            run = StartCoroutine(Countdown(delay));
+        if (run == null)
+        {
+            if(uses > used || uses == 0)
+            {
+                used++;
+                run = StartCoroutine(Countdown(delay));
+            }
+        }
     }
 
     IEnumerator Countdown(float delay)
