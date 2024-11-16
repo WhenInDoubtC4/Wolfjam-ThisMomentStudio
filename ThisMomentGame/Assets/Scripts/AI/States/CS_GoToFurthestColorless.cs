@@ -66,7 +66,7 @@ public class CS_GoToFurthestColorless : CharacterState
     {
         base.DoUpdate(dt);
 
-        //if (!doReachedCheck) return;
+        if (!target) return;
 
         if (Time.time - checkReachedStartTime > 0.5f)
         {
