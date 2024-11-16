@@ -122,17 +122,169 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &249444257 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4763662825961816008, guid: 2e47b55f4e8890d4c85eae09ce37940b, type: 3}
+  m_PrefabInstance: {fileID: 572997290}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &249444258 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6739150001672787845, guid: 2e47b55f4e8890d4c85eae09ce37940b, type: 3}
+  m_PrefabInstance: {fileID: 572997290}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &249444261 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7147956311666349084, guid: 2e47b55f4e8890d4c85eae09ce37940b, type: 3}
   m_PrefabInstance: {fileID: 572997290}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 249444257}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &249444263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249444257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2259aae21ff5004b9b13e38bf2c62af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 249444258}
+  scale: 0.1
+  duration: 0.3
+  vibrations: 2
+  elastic: 0.5
+--- !u!114 &249444264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249444257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 249444263}
+          m_TargetAssemblyTypeName: TweenPunch, Assembly-CSharp
+          m_MethodName: TriggerPunch
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!82 &249444265
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249444257}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 63d6db2471d92cc4da936fbb8acef2c9, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &548587720
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,6 +818,30 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4232093900972694697, guid: 2e47b55f4e8890d4c85eae09ce37940b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 572997296}
+    - targetCorrespondingSourceObject: {fileID: 4232093900972694697, guid: 2e47b55f4e8890d4c85eae09ce37940b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 572997302}
+    - targetCorrespondingSourceObject: {fileID: 4232093900972694697, guid: 2e47b55f4e8890d4c85eae09ce37940b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 572997301}
+    - targetCorrespondingSourceObject: {fileID: 4763662825961816008, guid: 2e47b55f4e8890d4c85eae09ce37940b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 249444265}
+    - targetCorrespondingSourceObject: {fileID: 4763662825961816008, guid: 2e47b55f4e8890d4c85eae09ce37940b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 249444264}
+    - targetCorrespondingSourceObject: {fileID: 4763662825961816008, guid: 2e47b55f4e8890d4c85eae09ce37940b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 249444263}
+    - targetCorrespondingSourceObject: {fileID: 219323818247015556, guid: 2e47b55f4e8890d4c85eae09ce37940b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1095028938}
+    - targetCorrespondingSourceObject: {fileID: 219323818247015556, guid: 2e47b55f4e8890d4c85eae09ce37940b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1095028937}
+    - targetCorrespondingSourceObject: {fileID: 219323818247015556, guid: 2e47b55f4e8890d4c85eae09ce37940b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1095028936}
   m_SourcePrefab: {fileID: 100100000, guid: 2e47b55f4e8890d4c85eae09ce37940b, type: 3}
 --- !u!224 &572997291 stripped
 RectTransform:
@@ -789,6 +965,57 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!224 &572997297 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2677040177234015460, guid: 2e47b55f4e8890d4c85eae09ce37940b, type: 3}
+  m_PrefabInstance: {fileID: 572997290}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &572997301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572997292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2259aae21ff5004b9b13e38bf2c62af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 572997297}
+  scale: 0.1
+  duration: 0.3
+  vibrations: 2
+  elastic: 0.5
+--- !u!114 &572997302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572997292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 572997301}
+          m_TargetAssemblyTypeName: TweenPunch, Assembly-CSharp
+          m_MethodName: TriggerPunch
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &1003453973
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1045,17 +1272,169 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1095028930 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 219323818247015556, guid: 2e47b55f4e8890d4c85eae09ce37940b, type: 3}
+  m_PrefabInstance: {fileID: 572997290}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1095028931 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2060004272724845769, guid: 2e47b55f4e8890d4c85eae09ce37940b, type: 3}
+  m_PrefabInstance: {fileID: 572997290}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1095028934 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2459664294907275088, guid: 2e47b55f4e8890d4c85eae09ce37940b, type: 3}
   m_PrefabInstance: {fileID: 572997290}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1095028930}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1095028936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095028930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2259aae21ff5004b9b13e38bf2c62af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1095028931}
+  scale: 0.1
+  duration: 0.3
+  vibrations: 2
+  elastic: 0.5
+--- !u!114 &1095028937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095028930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1095028936}
+          m_TargetAssemblyTypeName: TweenPunch, Assembly-CSharp
+          m_MethodName: TriggerPunch
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!82 &1095028938
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095028930}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 63d6db2471d92cc4da936fbb8acef2c9, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &1138412275
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1575,8 +1954,8 @@ GameObject:
   - component: {fileID: 1953826632}
   - component: {fileID: 1953826631}
   - component: {fileID: 1953826630}
+  - component: {fileID: 1953826640}
   - component: {fileID: 1953826634}
-  - component: {fileID: 1953826635}
   - component: {fileID: 1953826639}
   - component: {fileID: 1953826638}
   - component: {fileID: 1953826637}
@@ -1688,23 +2067,11 @@ MonoBehaviour:
   - {fileID: 249444261}
   - {fileID: 1095028934}
   duration: 2
-  fadeInColor: {r: 1, g: 1, b: 1, a: 1}
-  fadeOutColor: {r: 1, g: 1, b: 1, a: 0}
+  fadeInColor: {r: 0, g: 0, b: 0, a: 1}
+  fadeOutColor: {r: 0, g: 0, b: 0, a: 0}
   OnFadeInComplete:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1953826635}
-        m_TargetAssemblyTypeName: TimeScale, Assembly-CSharp
-        m_MethodName: SetTimeScale
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnFadeOutComplete:
     m_PersistentCalls:
       m_Calls:
@@ -1720,30 +2087,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1953826635}
-        m_TargetAssemblyTypeName: TimeScale, Assembly-CSharp
-        m_MethodName: SetTimeScale
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 1
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1953826635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1953826629}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6e8eb507ed3a9546bcd7471f0b431f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1953826636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1832,6 +2175,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &1953826640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953826629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f4c43da5c9315c4d8132c714d0809e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMenu: {fileID: 572997294}
+  fadeUI: {fileID: 1953826634}
 --- !u!1 &587826027866336978
 GameObject:
   m_ObjectHideFlags: 0
