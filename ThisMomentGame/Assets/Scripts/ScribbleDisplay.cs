@@ -34,6 +34,7 @@ public class ScribbleDisplay : MonoBehaviour
     {
         fadingIn = true;
         fadeInTimer = 0;
+        GetComponent<AudioSource>().Play();
     }
     private void FadeIn()
     {
@@ -54,7 +55,6 @@ public class ScribbleDisplay : MonoBehaviour
     {
         if (displaying)
         {
-            Debug.Log(displayTimer);
             displayTimer -= Time.deltaTime;
             if (displayTimer <= 0)
             {

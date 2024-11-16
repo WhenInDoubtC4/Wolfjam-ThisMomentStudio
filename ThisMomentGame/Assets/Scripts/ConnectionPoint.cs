@@ -41,7 +41,7 @@ public class ConnectionPoint : MonoBehaviour
             otherConnecting = other.GetComponent<ConnectionManager>().Connecting();
             otherCanConnect = other.GetComponent<ConnectionManager>().CanConnect();
         }
-        Debug.Log(" connecting: " + connecting + " can connect " + canConnect + " other connecting " + otherConnecting + " other can connect " + otherCanConnect + " connected before " + connectedBefore);
+        //Debug.Log(" connecting: " + connecting + " can connect " + canConnect + " other connecting " + otherConnecting + " other can connect " + otherCanConnect + " connected before " + connectedBefore);
         if (player != null && !connectedBefore)
         {
             Debug.Log("player connect");
