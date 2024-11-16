@@ -38,7 +38,7 @@ public class ConnectionPoint : MonoBehaviour
         else if(other.tag == "AIGuy")
         {
             characterObject.GetComponent<ConnectionManager>().GetConnectTarget(this);
-            //characterObject.GetComponent<ConnectionManager>().Try
+            characterObject.GetComponent<ConnectionManager>().TrySnapTarget();
         }
     }
 

@@ -187,11 +187,12 @@ public class ConnectionManager : MonoBehaviour
     }
 
     // this function snaps the player to the target so that we can run the animation sequence
-    void TrySnapTarget()
+    public void TrySnapTarget()
     {
         Debug.Log("TRY SNAP!");
         if (connectTarget != null)
         {
+            Debug.Log("attempting ai snap");
             transform.position = connectTarget.SnapPoint.position;
 
             // snap logic here
