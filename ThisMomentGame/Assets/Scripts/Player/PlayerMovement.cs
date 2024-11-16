@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.GraphicsBuffer;
 using static UnityEngine.InputSystem.DefaultInputActions;
 
 public class PlayerMovement : MonoBehaviour
@@ -56,23 +57,47 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        currentMagnetPull = 0;
-        if (magnetTarget != null)
-        {
-            // so basically the magnet pull is an extra maximum force addition 
-            // we're calculating it here based on how close the player is to the target
-            currentMagnetPull = Mathf.Lerp(0, maxMagnetPull, 
-                (1 - Vector3.Distance(transform.position, magnetTarget.transform.position) / magnetRadius));
-        }
+        UpdateMagnetPull();
 
         Move();
 
-        // this is from ChatGPT
-        float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg - 90f;
-        rb.rotation = angle; // This directly sets Rigidbody2D's rotation
+        SetRotation();
     }
 
-    public void Move()
+    void UpdateMagnetPull()
+    {
+        currentMagnetPull = 0;
+        if (magnetTarget != null)
+        {
+            if (IsTargetInView())
+            {
+                // so basically the magnet pull is an extra maximum force addition 
+                // we're calculating it here based on how close the player is to the target
+                currentMagnetPull = Mathf.Lerp(0, maxMagnetPull,
+                    (1 - Vector3.Distance(transform.position, magnetTarget.transform.position) / magnetRadius));
+            }
+        }
+    }
+
+    // chatgpt 
+    bool IsTargetInView()
+    {
+        // Get direction to the target
+        Vector2 directionToTarget = (Vector2)(magnetTarget.transform.position - transform.position);
+        directionToTarget.Normalize();
+
+        // Get the forward direction of the object (assume the object faces right by default in Unity 2D)
+        Vector2 forward = transform.right;
+
+        // Calculate the angle
+        float angleToTarget = Vector2.Angle(forward, directionToTarget);
+        Debug.Log("ANGLE TO TARGET IS " + angleToTarget);
+
+        // Check if the angle is within the view cone
+        return angleToTarget <= magnetAngle;
+    }
+
+    void Move()
     {
         if (moveInput != Vector2.zero)
         {
@@ -81,6 +106,7 @@ public class PlayerMovement : MonoBehaviour
 
         float speedClamp = maxSpeed;
 
+        // -------------------- SMOOTH INVERSION ----------------------- \\
         // These if statements are making redirecting movement go faster
         // so if you are moving left, then swap to moving right, you'll switch velocities super fast
         // should be snappy but not jarring
@@ -95,6 +121,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (!currentlySnapping)
         {
+            // -------------------- PLAYER MOVEMENT ----------------------- \\
+
             // doing the actual movement
             rb.AddForce(moveInput * moveSpeed);
 
@@ -103,7 +131,8 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            //currentMagnetPull = 0f;
+            // -------------------- SNAPPING MOVEMENT ----------------------- \\
+            
             Debug.Log(Vector2.Distance(connectTarget.SnapPoint.position, transform.position));
 
             if (Vector2.Distance(connectTarget.SnapPoint.position, transform.position) <= distToHardSnap)
@@ -127,8 +156,17 @@ public class PlayerMovement : MonoBehaviour
             
         }
 
+        // -------------------- CLAMP SPEED ----------------------- \\
+
         // clamp to a max speed to keep the acceleration on the move without a big mess
         rb.velocity = Vector2.ClampMagnitude(rb.velocity, (speedClamp));
+    }
+
+    // this is from ChatGPT
+    void SetRotation()
+    {
+        float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg - 90f; // except for the -90 degree part that was a bugfix by Mason
+        rb.rotation = angle; // This directly sets Rigidbody2D's rotation
     }
 
     // these two functions set a magnet for the player that they will basically gravitate towards if they lean into it
