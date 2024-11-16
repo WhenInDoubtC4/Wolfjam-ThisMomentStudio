@@ -1,4 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using static UnityEngine.GraphicsBuffer;
+using static UnityEngine.InputSystem.DefaultInputActions;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -17,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float magnetDrag = 0.3f;
 
     AudioSource audioSource;
+
     GameObject magnetTarget = null;
 
     [Header("Snap Variables")]
@@ -49,8 +56,6 @@ public class PlayerMovement : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         baseDrag = rb.drag;
-
-        audioSource = GetComponent<AudioSource>();
     }
 
     private void FixedUpdate()
@@ -61,17 +66,19 @@ public class PlayerMovement : MonoBehaviour
 
         SetRotation();
 
+
         if (moveInput != Vector2.zero)
         {
             if (!audioSource.isPlaying)
-            {
-                audioSource.Play();
-            }
-        }
-        else
-        {
+			{
+				audioSource.Play();
+			}
+			else
+			{
             audioSource.Stop();
-        }
+			}
+		}
+
     }
 
     void UpdateMagnetPull()
@@ -82,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
             bool connectCheck = connectTarget == null;
             if (!connectCheck)
             {
-                Debug.Log("MAG IS " + magnetTarget + " AND CONNECT IS " + connectTarget.transform.parent.gameObject);
+                //Debug.Log("MAG IS " + magnetTarget + " AND CONNECT IS " + connectTarget.transform.parent.gameObject);
                 connectCheck = magnetTarget == connectTarget.transform.parent.gameObject;
             }
 
@@ -94,6 +101,7 @@ public class PlayerMovement : MonoBehaviour
                     (1 - Vector3.Distance(transform.position, magnetTarget.transform.position) / magnetRadius));
             }
         }
+
     }
 
     // chatgpt 
@@ -106,10 +114,10 @@ public class PlayerMovement : MonoBehaviour
         // Get the forward direction of the object (assume the object faces right by default in Unity 2D)
         Vector2 forward = transform.right;
 
-        Debug.Log("FORWARD IS " + forward);
+        //Debug.Log("FORWARD IS " + forward);
         // Calculate the angle
         float angleToTarget = Vector2.SignedAngle(forward, directionToTarget) - 90f;
-        Debug.Log("ANGLE TO TARGET IS " + angleToTarget);
+        //Debug.Log("ANGLE TO TARGET IS " + angleToTarget);
 
         // Check if the angle is within the view cone
         return Mathf.Abs(angleToTarget) <= magnetAngle;
@@ -150,8 +158,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             // -------------------- SNAPPING MOVEMENT ----------------------- \\
-
-            Debug.Log(Vector2.Distance(connectTarget.SnapPoint.position, transform.position));
+            //Debug.Log(Vector2.Distance(connectTarget.SnapPoint.position, transform.position));
 
             if (Vector2.Distance(connectTarget.SnapPoint.position, transform.position) <= distToHardSnap)
             {
@@ -234,7 +241,8 @@ public class PlayerMovement : MonoBehaviour
             emoteHandler.emoteTarget = connectTarget.characterObject;
 
             // So normally we should allow the player to run some sort of emote logic before ending the emote
-            Invoke("EndEmote", 1.2f);
+            //Invoke("EndEmote", 1.2f);
+
 
         }
         else
