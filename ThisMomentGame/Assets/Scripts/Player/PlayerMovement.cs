@@ -69,7 +69,14 @@ public class PlayerMovement : MonoBehaviour
         currentMagnetPull = 0;
         if (magnetTarget != null)
         {
-            if (IsTargetInView())
+            bool connectCheck = connectTarget == null;
+            if (!connectCheck)
+            {
+                Debug.Log("MAG IS " + magnetTarget + " AND CONNECT IS " + connectTarget.transform.parent.gameObject);
+                connectCheck = magnetTarget == connectTarget.transform.parent.gameObject;
+            }
+
+            if (IsTargetInView() || connectCheck)
             {
                 // so basically the magnet pull is an extra maximum force addition 
                 // we're calculating it here based on how close the player is to the target
@@ -89,12 +96,13 @@ public class PlayerMovement : MonoBehaviour
         // Get the forward direction of the object (assume the object faces right by default in Unity 2D)
         Vector2 forward = transform.right;
 
+        Debug.Log("FORWARD IS " + forward);
         // Calculate the angle
-        float angleToTarget = Vector2.Angle(forward, directionToTarget);
+        float angleToTarget = Vector2.SignedAngle(forward, directionToTarget) - 90f;
         Debug.Log("ANGLE TO TARGET IS " + angleToTarget);
 
         // Check if the angle is within the view cone
-        return angleToTarget <= magnetAngle;
+        return Mathf.Abs(angleToTarget) <= magnetAngle;
     }
 
     void Move()
