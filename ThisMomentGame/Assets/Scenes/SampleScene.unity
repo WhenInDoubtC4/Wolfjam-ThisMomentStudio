@@ -178,6 +178,34 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3486478901178961827, guid: af83d2f7b986251429449c78df124a51, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.98168516
+      objectReference: {fileID: 0}
+    - target: {fileID: -3486478901178961827, guid: af83d2f7b986251429449c78df124a51, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3486478901178961827, guid: af83d2f7b986251429449c78df124a51, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3486478901178961827, guid: af83d2f7b986251429449c78df124a51, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.19051073
+      objectReference: {fileID: 0}
+    - target: {fileID: -3486478901178961827, guid: af83d2f7b986251429449c78df124a51, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -21.965
+      objectReference: {fileID: 0}
+    - target: {fileID: -2385764143416960557, guid: af83d2f7b986251429449c78df124a51, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.0553846
+      objectReference: {fileID: 0}
+    - target: {fileID: -2385764143416960557, guid: af83d2f7b986251429449c78df124a51, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.015912944
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
