@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using static UnityEngine.InputSystem.DefaultInputActions;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -20,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float maxMagnetPull = 2f;
     [SerializeField] float currentMagnetPull = 0f;
     [SerializeField] float magnetDrag = 0.3f;
+
+    AudioSource audioSource;
 
     GameObject magnetTarget = null;
 
@@ -48,6 +45,8 @@ public class PlayerMovement : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         baseDrag = rb.drag;
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void FixedUpdate()
@@ -60,6 +59,19 @@ public class PlayerMovement : MonoBehaviour
             currentMagnetPull = Mathf.Lerp(0, maxMagnetPull, 
                 (1 - Vector3.Distance(transform.position, magnetTarget.transform.position) / magnetRadius));
         }
+
+        if (moveInput != Vector2.zero)
+        {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+        }
+        else
+        {
+            audioSource.Stop();
+        }
+
 
         Move();
     }
@@ -76,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
         // should be snappy but not jarring
         if ((moveInput.x > 0 && rb.velocity.x < 0) || (moveInput.x < 0 && rb.velocity.x > 0))
         {
-            rb.velocity.Set(moveInput.x * moveSpeed, rb.velocity.y);
+            rb.velocity.Set(moveInput.x * moveSpeed, rb.velocity.y);           
         }
         if ((moveInput.y > 0 && rb.velocity.y < 0) || (moveInput.y < 0 && rb.velocity.y > 0))
         {
