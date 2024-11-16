@@ -173,6 +173,8 @@ public class ConnectionManager : MonoBehaviour
     //this should be called at a certain point in the emote animation
     public void FinishConnection()
     {
+        connectTarget.OnSuccessfulInteract();
+
         connectTarget = null;
 
         //begin delay before new connection can be made
@@ -188,7 +190,6 @@ public class ConnectionManager : MonoBehaviour
         //give camera total number of connections
 
         player.EndEmote();
-
 
         //add function to tell ai connection is over 
     }
