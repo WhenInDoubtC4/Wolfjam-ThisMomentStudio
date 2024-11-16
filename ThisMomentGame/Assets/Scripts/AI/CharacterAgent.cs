@@ -61,18 +61,7 @@ public class CharacterAgent : MonoBehaviour
         navAgentComponent.updateUpAxis = false;
         navAgentComponent.updateRotation = false;
 
-        navAgentComponent.SetDestination(testTarget.transform.position);
-
-        //TODO: Remove this later
-        StartCoroutine(TEMP_AutoAssignColor());
-    }
-
-    //Temporary!
-    IEnumerator TEMP_AutoAssignColor()
-    {
-        yield return new WaitForSeconds(5f);
-
-        AssignColor();
+        navAgentComponent.SetDestination(new Vector3(5f, 5f, transform.position.z));
     }
 
     void Update()
@@ -98,8 +87,8 @@ public class CharacterAgent : MonoBehaviour
 
     private void TryAssignColorToOther(CharacterAgent other)
     {
-        //TODO: Check if the initial 4 assignments have been performed here!
-        bool hasInitialAssignments = false;
+        //Check if the initial 4 assignments have been performed here!
+        bool hasInitialAssignments = GameManager.Instance.colorAssignments >= 4;
 
         if (hasInitialAssignments)
         {
@@ -118,6 +107,12 @@ public class CharacterAgent : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         TryAssignColorToOther(otherAgent);
+    }
+
+    public void OnPlayerIntreact()
+    {
+        AssignColor();
+        GameManager.Instance.IncrementColorAssignments();
     }
 
     private void OnSeekFoundAgentWithColor(CharacterAgent other)
