@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
     GameObject magnetTarget = null;
 
-    PlayerActions actions;
+    public PlayerActions actions { get; private set; }
     PlayerActions.PlayerMovementActions playerMovement;
 
     Rigidbody2D rb;

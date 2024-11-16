@@ -83,6 +83,94 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "Emotes",
+            "id": "790e980a-6fdc-49c0-8450-a4b0e89f2179",
+            "actions": [
+                {
+                    "name": "Red",
+                    "type": "Value",
+                    "id": "1143d927-b27c-473a-a303-012f096b1b5a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Green",
+                    "type": "Value",
+                    "id": "83836743-47f7-43e7-9e80-1784c315438e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Blue",
+                    "type": "Value",
+                    "id": "6cbbdb0b-2ccc-4aff-9f95-d299bd51c8ff",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Yellow",
+                    "type": "Value",
+                    "id": "0d63a24e-c882-4dc4-a342-95b99a76f189",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3ac3a8a1-2b9e-4815-9b10-913e704927bc",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Red",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "868408ba-b6cb-4e87-a10e-3c650fa7cd7b",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Green",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cb92dfc4-e8d6-40b6-9dc0-a4284c5f447a",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Blue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a7f9998a-1a3d-420a-bf62-8d93edfce5d4",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Yellow",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
