@@ -28,6 +28,8 @@ public class ConnectionPoint : MonoBehaviour
         if (player != null && canConnect)
         {
             player.GetConnectTarget(this);
+
+            //set emote target
             characterObject.GetComponent<ConnectionManager>().StartConnection(other.gameObject);
         }
     }
