@@ -46,6 +46,8 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
+
         actions = new PlayerActions();
         actions.Enable();
 
@@ -75,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
 			}
 			else
 			{
-            audioSource.Stop();
+                audioSource.Stop();
 			}
 		}
 
@@ -241,8 +243,7 @@ public class PlayerMovement : MonoBehaviour
             emoteHandler.emoteTarget = connectTarget.characterObject;
 
             // So normally we should allow the player to run some sort of emote logic before ending the emote
-            //Invoke("EndEmote", 1.2f);
-
+            Invoke("EndEmote", 1.2f);
 
         }
         else
