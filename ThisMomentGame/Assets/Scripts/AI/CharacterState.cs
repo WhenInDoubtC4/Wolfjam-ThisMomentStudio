@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class CharacterState
 {
-    public CharacterState()
-    {
+    protected GameObject parent { get; private set; }
 
+    public CharacterState(GameObject parent)
+    {
+        this.parent = parent;
     }
 
     public virtual void EnterState() { }

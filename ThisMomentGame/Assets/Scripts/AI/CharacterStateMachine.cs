@@ -12,6 +12,13 @@ public class CharacterStateMachine
         currentState.EnterState();
     }
 
+    public void SwitchStates(CharacterState newState)
+    {
+        currentState.ExitState();
+        currentState = newState;
+        currentState.EnterState();
+    }
+
     public void DoUpdate(float dt)
     {
         currentState.DoUpdate(dt);

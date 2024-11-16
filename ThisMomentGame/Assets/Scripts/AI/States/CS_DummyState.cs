@@ -5,6 +5,11 @@ using UnityEngine;
 //Dummy state for when the character has no color assigned
 public class CS_DummyState : CharacterState
 {
+    public CS_DummyState(GameObject parent) : base(parent)
+    {
+
+    }
+
     public override void EnterState()
     {
         base.EnterState();
