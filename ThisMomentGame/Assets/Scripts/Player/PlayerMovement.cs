@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Snap Variables")]
     [SerializeField] float distToHardSnap = 0.25f; // this is how far the player has to be from a snap point to snap to it
+    [SerializeField] float snapResistance = 0.65f;
     bool currentlySnapping = false;
 
     [Header("Object Hookups")]
@@ -153,6 +154,7 @@ public class PlayerMovement : MonoBehaviour
                 Vector2 snapDir = (connectTarget.SnapPoint.position - transform.position).normalized;
 
                 rb.AddForce(snapDir * moveSpeed);
+                rb.AddForce(moveInput * snapResistance * moveSpeed);
 
                 // so while we're actively snapping to the target, we're reducing the force of the magnet pull
                 // based on the distance of the player to the snap point in the context of the sphere
@@ -223,7 +225,7 @@ public class PlayerMovement : MonoBehaviour
             emoteHandler.emoteTarget = connectTarget.characterObject;
 
             // So normally we should allow the player to run some sort of emote logic before ending the emote
-            Invoke("EndEmote", 1f);
+            Invoke("EndEmote", 1.2f);
             
         }
         else
