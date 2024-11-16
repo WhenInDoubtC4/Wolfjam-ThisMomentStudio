@@ -73,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
             bool connectCheck = connectTarget == null;
             if (!connectCheck)
             {
-                Debug.Log("MAG IS " + magnetTarget + " AND CONNECT IS " + connectTarget.transform.parent.gameObject);
+                //Debug.Log("MAG IS " + magnetTarget + " AND CONNECT IS " + connectTarget.transform.parent.gameObject);
                 connectCheck = magnetTarget == connectTarget.transform.parent.gameObject;
             }
 
@@ -96,11 +96,11 @@ public class PlayerMovement : MonoBehaviour
 
         // Get the forward direction of the object (assume the object faces right by default in Unity 2D)
         Vector2 forward = transform.right;
-
-        Debug.Log("FORWARD IS " + forward);
+        
+        //Debug.Log("FORWARD IS " + forward);
         // Calculate the angle
         float angleToTarget = Vector2.SignedAngle(forward, directionToTarget) - 90f;
-        Debug.Log("ANGLE TO TARGET IS " + angleToTarget);
+        //Debug.Log("ANGLE TO TARGET IS " + angleToTarget);
 
         // Check if the angle is within the view cone
         return Mathf.Abs(angleToTarget) <= magnetAngle;
@@ -142,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // -------------------- SNAPPING MOVEMENT ----------------------- \\
             
-            Debug.Log(Vector2.Distance(connectTarget.SnapPoint.position, transform.position));
+            //Debug.Log(Vector2.Distance(connectTarget.SnapPoint.position, transform.position));
 
             if (Vector2.Distance(connectTarget.SnapPoint.position, transform.position) <= distToHardSnap)
             {
