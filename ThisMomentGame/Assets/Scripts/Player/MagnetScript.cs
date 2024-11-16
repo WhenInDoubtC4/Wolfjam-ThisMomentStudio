@@ -13,13 +13,20 @@ public class MagnetScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("ADDING MAG TARGET");
-        movement.GetMagnetTarget(other.gameObject);
+        if (other.CompareTag("AIGuy"))
+        {
+            Debug.Log("ADDING MAG TARGET");
+            movement.GetMagnetTarget(other.gameObject);
+        }
+       
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        Debug.Log("BYE MAG TARGET");
-        movement.RemoveMagnetTarget(other.gameObject);
+        if (other.CompareTag("AIGuy"))
+        {
+            Debug.Log("BYE MAG TARGET");
+            movement.RemoveMagnetTarget(other.gameObject);
+        }
     }
 }

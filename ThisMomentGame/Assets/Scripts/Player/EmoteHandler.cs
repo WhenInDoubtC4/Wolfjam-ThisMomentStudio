@@ -43,6 +43,8 @@ public class EmoteHandler : MonoBehaviour
                 SetAnimValue("Yellow", true);
                 break;
         }
+
+
     }
 
     public void FinishEmote()
