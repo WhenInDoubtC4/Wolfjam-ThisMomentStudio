@@ -23,12 +23,17 @@ public class PlayerMovement : MonoBehaviour
 
     GameObject magnetTarget = null;
 
-    PlayerActions actions;
+    [Header("Object Hookups")]
+    [SerializeField] EmoteHandler emoteHandler;
+
+    public PlayerActions actions { get; private set; }
     PlayerActions.PlayerMovementActions playerMovement;
 
     Rigidbody2D rb;
 
     Vector2 moveInput;
+
+    ConnectionPoint connectTarget;
     
     // Start is called before the first frame update
     void Awake()
@@ -39,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
         playerMovement = actions.PlayerMovement;
 
         playerMovement.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>(); // moveInput = 
+        playerMovement.Connect.performed += ctx => TrySnapTarget();
 
         rb = GetComponent<Rigidbody2D>();
         baseDrag = rb.drag;
@@ -86,6 +92,7 @@ public class PlayerMovement : MonoBehaviour
         // our deceleration is handled with the Rigidbody's Linear Drag value right now. 
     }
 
+    // these two functions set a magnet for the player that they will basically gravitate towards if they lean into it
     public void GetMagnetTarget(GameObject target)
     {
         magnetTarget = target;
@@ -99,5 +106,51 @@ public class PlayerMovement : MonoBehaviour
             magnetTarget = null;
             rb.drag = baseDrag;
         }
+    }
+
+    // these two functions are for our actual connect mechanic.
+    // When the player enters a ConnectionPoint near an AI, they become ready to connect
+    public void GetConnectTarget(ConnectionPoint connectPoint)
+    {
+        Debug.Log("SETTING TARGET");
+        connectTarget = connectPoint;
+    }
+
+    public void RemoveConnectTarget(ConnectionPoint point)
+    {
+        if (connectTarget == point)
+        {
+            connectTarget = null;
+        }
+    }
+
+    // this function snaps the player to the target so that we can run the animation sequence
+    void TrySnapTarget()
+    {
+        Debug.Log("TRY SNAP!");
+        if (connectTarget != null)
+        {
+            transform.position = connectTarget.SnapPoint.position;
+
+            // snap logic here
+            rb.velocity = Vector2.zero;
+            rb.isKinematic = true;
+
+            emoteHandler.emoteTarget = connectTarget.characterObject;
+
+            // So normally we should allow the player to run some sort of emote logic before ending the emote
+            Invoke("EndEmote", 1f);
+            
+        }
+        else
+        {
+            EndEmote();
+        }
+    }
+
+    void EndEmote()
+    {
+        rb.isKinematic = false;
+        emoteHandler.emoteTarget = null;
     }
 }
