@@ -1,6 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class AIMovementScript : MonoBehaviour
 {
     [Header("Move Variables")]
     [SerializeField] float moveSpeed = 7f;
@@ -21,55 +23,48 @@ public class PlayerMovement : MonoBehaviour
     GameObject magnetTarget = null;
 
     [Header("Object Hookups")]
-    [SerializeField] EmoteHandler emoteHandler;
-
-    public PlayerActions actions { get; private set; }
-    PlayerActions.PlayerMovementActions playerMovement;
+    [SerializeField] CharacterAgent agent;
 
     Rigidbody2D rb;
 
     Vector2 moveInput;
 
     ConnectionPoint connectTarget;
-    
+
     // Start is called before the first frame update
     void Awake()
     {
-        actions = new PlayerActions();
-        actions.Enable();
-
-        playerMovement = actions.PlayerMovement;
-
-        playerMovement.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>(); // moveInput = 
-        playerMovement.Connect.performed += ctx => TrySnapTarget();
-
         rb = GetComponent<Rigidbody2D>();
         baseDrag = rb.drag;
 
-        audioSource = GetComponent<AudioSource>();
+        //audioSource = GetComponent<AudioSource>();
     }
 
     private void FixedUpdate()
     {
+        moveInput = agent.aiMoveInput;
+
+        Debug.Log("MOVE INPUT IS " + moveInput);
+
         currentMagnetPull = 0;
         if (magnetTarget != null)
         {
             // so basically the magnet pull is an extra maximum force addition 
             // we're calculating it here based on how close the player is to the target
-            currentMagnetPull = Mathf.Lerp(0, maxMagnetPull, 
+            currentMagnetPull = Mathf.Lerp(0, maxMagnetPull,
                 (1 - Vector3.Distance(transform.position, magnetTarget.transform.position) / magnetRadius));
         }
 
         if (moveInput != Vector2.zero)
         {
-            if (!audioSource.isPlaying)
-            {
-                audioSource.Play();
-            }
+            //if (!audioSource.isPlaying)
+            //{
+            //    audioSource.Play();
+            //}
         }
         else
         {
-            audioSource.Stop();
+            //audioSource.Stop();
         }
 
 
@@ -88,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
         // should be snappy but not jarring
         if ((moveInput.x > 0 && rb.velocity.x < 0) || (moveInput.x < 0 && rb.velocity.x > 0))
         {
-            rb.velocity.Set(moveInput.x * moveSpeed, rb.velocity.y);           
+            rb.velocity.Set(moveInput.x * moveSpeed, rb.velocity.y);
         }
         if ((moveInput.y > 0 && rb.velocity.y < 0) || (moveInput.y < 0 && rb.velocity.y > 0))
         {
@@ -99,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(moveInput * moveSpeed);
 
         // clamp to a max speed to keep the acceleration on the move without a big mess
-        rb.velocity = Vector2.ClampMagnitude(rb.velocity, (maxSpeed + currentMagnetPull));     
+        rb.velocity = Vector2.ClampMagnitude(rb.velocity, (maxSpeed + currentMagnetPull));
 
         // our deceleration is handled with the Rigidbody's Linear Drag value right now. 
     }
@@ -148,11 +143,12 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = Vector2.zero;
             rb.isKinematic = true;
 
-            emoteHandler.emoteTarget = connectTarget.characterObject;
+            // NEED TO SET TARGETS RIGHT
+            //emoteHandler.emoteTarget = connectTarget.characterObject;
 
             // So normally we should allow the player to run some sort of emote logic before ending the emote
             Invoke("EndEmote", 1f);
-            
+
         }
         else
         {
@@ -163,6 +159,7 @@ public class PlayerMovement : MonoBehaviour
     public void EndEmote()
     {
         rb.isKinematic = false;
-        emoteHandler.emoteTarget = null;
+        //emoteHandler.emoteTarget = null;
+        // NEED TO SET TARGETS RIGHT
     }
 }

@@ -27,6 +27,8 @@ public class CharacterAgent : MonoBehaviour
 
     public bool hasColorAssigned { get; private set; } = false;
 
+    public Vector2 aiMoveInput { get; private set; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,7 +52,8 @@ public class CharacterAgent : MonoBehaviour
         wanderState.onWanderTargetPicked.AddListener(OnWanderStateTargetPicked);
         wanderState.onWanderingComplete.AddListener(OnWanderingComplete);
 
-        navAgentComponent = GetComponent<NavMeshAgent>();
+        //navAgentComponent = GetComponent<NavMeshAgent>();
+        navAgentComponent = GetComponentInChildren<NavMeshAgent>();
         if (!navAgentComponent)
         {
             Debug.LogError("Cannot find nav mesh agent component on character agent");
@@ -61,7 +64,7 @@ public class CharacterAgent : MonoBehaviour
         navAgentComponent.updateUpAxis = false;
         navAgentComponent.updateRotation = false;
 
-        navAgentComponent.SetDestination(new Vector3(5f, 5f, transform.position.z));
+        //navAgentComponent.SetDestination(new Vector3(5f, 5f, transform.position.z));
     }
 
     void Update()
@@ -72,6 +75,9 @@ public class CharacterAgent : MonoBehaviour
     private void FixedUpdate()
     {
         stateMachine.DoFixedUpdate(Time.fixedDeltaTime);
+
+        navAgentComponent.gameObject.transform.localPosition = Vector2.zero;
+        aiMoveInput = navAgentComponent.desiredVelocity.normalized;
     }
 
     public void AssignColor()
