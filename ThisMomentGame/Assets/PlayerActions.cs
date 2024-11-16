@@ -35,6 +35,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Connect"",
+                    ""type"": ""Button"",
+                    ""id"": ""f16976f3-4a21-488d-90ac-7dd8d2f9d36f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -103,6 +112,105 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""51b50b6c-4ec4-459e-8be3-c6a97e38ef45"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Connect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Emotes"",
+            ""id"": ""790e980a-6fdc-49c0-8450-a4b0e89f2179"",
+            ""actions"": [
+                {
+                    ""name"": ""Red"",
+                    ""type"": ""Value"",
+                    ""id"": ""1143d927-b27c-473a-a303-012f096b1b5a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Green"",
+                    ""type"": ""Value"",
+                    ""id"": ""83836743-47f7-43e7-9e80-1784c315438e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Blue"",
+                    ""type"": ""Value"",
+                    ""id"": ""6cbbdb0b-2ccc-4aff-9f95-d299bd51c8ff"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Yellow"",
+                    ""type"": ""Value"",
+                    ""id"": ""0d63a24e-c882-4dc4-a342-95b99a76f189"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""3ac3a8a1-2b9e-4815-9b10-913e704927bc"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Red"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""868408ba-b6cb-4e87-a10e-3c650fa7cd7b"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Green"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cb92dfc4-e8d6-40b6-9dc0-a4284c5f447a"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Blue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a7f9998a-1a3d-420a-bf62-8d93edfce5d4"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Yellow"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -112,11 +220,19 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         // PlayerMovement
         m_PlayerMovement = asset.FindActionMap("PlayerMovement", throwIfNotFound: true);
         m_PlayerMovement_Move = m_PlayerMovement.FindAction("Move", throwIfNotFound: true);
+        m_PlayerMovement_Connect = m_PlayerMovement.FindAction("Connect", throwIfNotFound: true);
+        // Emotes
+        m_Emotes = asset.FindActionMap("Emotes", throwIfNotFound: true);
+        m_Emotes_Red = m_Emotes.FindAction("Red", throwIfNotFound: true);
+        m_Emotes_Green = m_Emotes.FindAction("Green", throwIfNotFound: true);
+        m_Emotes_Blue = m_Emotes.FindAction("Blue", throwIfNotFound: true);
+        m_Emotes_Yellow = m_Emotes.FindAction("Yellow", throwIfNotFound: true);
     }
 
     ~@PlayerActions()
     {
         UnityEngine.Debug.Assert(!m_PlayerMovement.enabled, "This will cause a leak and performance issues, PlayerActions.PlayerMovement.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Emotes.enabled, "This will cause a leak and performance issues, PlayerActions.Emotes.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -179,11 +295,13 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerMovement;
     private List<IPlayerMovementActions> m_PlayerMovementActionsCallbackInterfaces = new List<IPlayerMovementActions>();
     private readonly InputAction m_PlayerMovement_Move;
+    private readonly InputAction m_PlayerMovement_Connect;
     public struct PlayerMovementActions
     {
         private @PlayerActions m_Wrapper;
         public PlayerMovementActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_PlayerMovement_Move;
+        public InputAction @Connect => m_Wrapper.m_PlayerMovement_Connect;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMovement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -196,6 +314,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Connect.started += instance.OnConnect;
+            @Connect.performed += instance.OnConnect;
+            @Connect.canceled += instance.OnConnect;
         }
 
         private void UnregisterCallbacks(IPlayerMovementActions instance)
@@ -203,6 +324,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Connect.started -= instance.OnConnect;
+            @Connect.performed -= instance.OnConnect;
+            @Connect.canceled -= instance.OnConnect;
         }
 
         public void RemoveCallbacks(IPlayerMovementActions instance)
@@ -220,8 +344,86 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         }
     }
     public PlayerMovementActions @PlayerMovement => new PlayerMovementActions(this);
+
+    // Emotes
+    private readonly InputActionMap m_Emotes;
+    private List<IEmotesActions> m_EmotesActionsCallbackInterfaces = new List<IEmotesActions>();
+    private readonly InputAction m_Emotes_Red;
+    private readonly InputAction m_Emotes_Green;
+    private readonly InputAction m_Emotes_Blue;
+    private readonly InputAction m_Emotes_Yellow;
+    public struct EmotesActions
+    {
+        private @PlayerActions m_Wrapper;
+        public EmotesActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Red => m_Wrapper.m_Emotes_Red;
+        public InputAction @Green => m_Wrapper.m_Emotes_Green;
+        public InputAction @Blue => m_Wrapper.m_Emotes_Blue;
+        public InputAction @Yellow => m_Wrapper.m_Emotes_Yellow;
+        public InputActionMap Get() { return m_Wrapper.m_Emotes; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(EmotesActions set) { return set.Get(); }
+        public void AddCallbacks(IEmotesActions instance)
+        {
+            if (instance == null || m_Wrapper.m_EmotesActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_EmotesActionsCallbackInterfaces.Add(instance);
+            @Red.started += instance.OnRed;
+            @Red.performed += instance.OnRed;
+            @Red.canceled += instance.OnRed;
+            @Green.started += instance.OnGreen;
+            @Green.performed += instance.OnGreen;
+            @Green.canceled += instance.OnGreen;
+            @Blue.started += instance.OnBlue;
+            @Blue.performed += instance.OnBlue;
+            @Blue.canceled += instance.OnBlue;
+            @Yellow.started += instance.OnYellow;
+            @Yellow.performed += instance.OnYellow;
+            @Yellow.canceled += instance.OnYellow;
+        }
+
+        private void UnregisterCallbacks(IEmotesActions instance)
+        {
+            @Red.started -= instance.OnRed;
+            @Red.performed -= instance.OnRed;
+            @Red.canceled -= instance.OnRed;
+            @Green.started -= instance.OnGreen;
+            @Green.performed -= instance.OnGreen;
+            @Green.canceled -= instance.OnGreen;
+            @Blue.started -= instance.OnBlue;
+            @Blue.performed -= instance.OnBlue;
+            @Blue.canceled -= instance.OnBlue;
+            @Yellow.started -= instance.OnYellow;
+            @Yellow.performed -= instance.OnYellow;
+            @Yellow.canceled -= instance.OnYellow;
+        }
+
+        public void RemoveCallbacks(IEmotesActions instance)
+        {
+            if (m_Wrapper.m_EmotesActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IEmotesActions instance)
+        {
+            foreach (var item in m_Wrapper.m_EmotesActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_EmotesActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public EmotesActions @Emotes => new EmotesActions(this);
     public interface IPlayerMovementActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnConnect(InputAction.CallbackContext context);
+    }
+    public interface IEmotesActions
+    {
+        void OnRed(InputAction.CallbackContext context);
+        void OnGreen(InputAction.CallbackContext context);
+        void OnBlue(InputAction.CallbackContext context);
+        void OnYellow(InputAction.CallbackContext context);
     }
 }
