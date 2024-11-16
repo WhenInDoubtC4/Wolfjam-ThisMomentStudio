@@ -7,10 +7,13 @@ public class ConnectionPoint : MonoBehaviour
     public Transform SnapPoint;
     public GameObject characterObject;
 
+    public float triggerRadius { get; private set; }
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        triggerRadius = GetComponent<CircleCollider2D>().radius * transform.localScale.magnitude;
+        Debug.Log("TRIGGER RADIUS IS " + triggerRadius);
     }
 
     // Update is called once per frame

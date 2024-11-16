@@ -23,6 +23,11 @@ public class PlayerMovement : MonoBehaviour
 
     GameObject magnetTarget = null;
 
+    [Header("Snap Variables")]
+    [SerializeField] float distToHardSnap = 0.25f; // this is how far the player has to be from a snap point to snap to it
+    [SerializeField] float snappingMagnetMultiplier = 0.5f; // while snapping, speed from the magnet is multiplied by this much
+    bool currentlySnapping = false;
+
     [Header("Object Hookups")]
     [SerializeField] EmoteHandler emoteHandler;
 
@@ -62,6 +67,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Move();
+
+        // this is from ChatGPT
+        float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg - 90f;
+        rb.rotation = angle; // This directly sets Rigidbody2D's rotation
     }
 
     public void Move()
@@ -70,6 +79,8 @@ public class PlayerMovement : MonoBehaviour
         {
             //Debug.Log("MOVE IS " + moveInput);
         }
+
+        float speedClamp = maxSpeed;
 
         // These if statements are making redirecting movement go faster
         // so if you are moving left, then swap to moving right, you'll switch velocities super fast
@@ -83,13 +94,38 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity.Set(rb.velocity.x, moveInput.y * moveSpeed);
         }
 
-        // doing the actual movement
-        rb.AddForce(moveInput * moveSpeed);
+        if (!currentlySnapping)
+        {
+            // doing the actual movement
+            rb.AddForce(moveInput * moveSpeed);
+
+            speedClamp += currentMagnetPull;
+            // our deceleration is handled with the Rigidbody's Linear Drag value right now. 
+        }
+        else
+        {
+            //currentMagnetPull = 0f;
+            Debug.Log(Vector2.Distance(connectTarget.SnapPoint.position, transform.position));
+
+            if (Vector2.Distance(connectTarget.SnapPoint.position, transform.position) <= distToHardSnap)
+            {
+                rb.velocity = Vector2.zero;
+                transform.position = connectTarget.SnapPoint.position;
+            }
+            else
+            {
+                Vector2 snapDir = (connectTarget.SnapPoint.position - transform.position).normalized;
+
+                rb.AddForce(snapDir * moveSpeed);
+
+                speedClamp += Mathf.Lerp(0, currentMagnetPull, (Vector2.Distance(transform.position, connectTarget.SnapPoint.position) / connectTarget.triggerRadius));
+                //speedClamp += (currentMagnetPull * snappingMagnetMultiplier);
+            }
+            
+        }
 
         // clamp to a max speed to keep the acceleration on the move without a big mess
-        rb.velocity = Vector2.ClampMagnitude(rb.velocity, (maxSpeed + currentMagnetPull));     
-
-        // our deceleration is handled with the Rigidbody's Linear Drag value right now. 
+        rb.velocity = Vector2.ClampMagnitude(rb.velocity, (speedClamp));
     }
 
     // these two functions set a magnet for the player that they will basically gravitate towards if they lean into it
@@ -118,7 +154,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void RemoveConnectTarget(ConnectionPoint point)
     {
-        if (connectTarget == point)
+        if (connectTarget == point && !currentlySnapping)
         {
             connectTarget = null;
         }
@@ -130,11 +166,10 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("TRY SNAP!");
         if (connectTarget != null)
         {
-            transform.position = connectTarget.SnapPoint.position;
+            //transform.position = connectTarget.SnapPoint.position;
 
             // snap logic here
-            rb.velocity = Vector2.zero;
-            rb.isKinematic = true;
+            currentlySnapping = true;
 
             emoteHandler.emoteTarget = connectTarget.characterObject;
 
@@ -150,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
 
     void EndEmote()
     {
-        rb.isKinematic = false;
+        currentlySnapping = false;
         emoteHandler.emoteTarget = null;
     }
 }
