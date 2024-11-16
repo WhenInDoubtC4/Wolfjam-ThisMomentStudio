@@ -52,6 +52,16 @@ public class WaypointFollower : MonoBehaviour
          path?.DrawWaypointGizmos();
     }
 
+    public void Stop()
+    {
+        transform.DOPause();
+    }
+
+    public void SetWayPointIndex(int index)
+    {
+        waypointIndex = index;
+    }
+
     public void MoveAlongPath(float time = -1)
     {
         if (time <= 0)
