@@ -25,6 +25,13 @@ public class EmoteHandler : MonoBehaviour
 
     void DoEmote(EmoteEnum emote)
     {
+        if (emoteAnimator.GetBool("Red") || emoteAnimator.GetBool("Green") 
+            || emoteAnimator.GetBool("Blue") || emoteAnimator.GetBool("Yellow"))
+        {
+            return;
+        }
+        
+
         SetAnimValue("Red", false);
         SetAnimValue("Green", false);
         SetAnimValue("Blue", false);
