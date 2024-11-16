@@ -25,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Snap Variables")]
     [SerializeField] float distToHardSnap = 0.25f; // this is how far the player has to be from a snap point to snap to it
-    [SerializeField] float snappingMagnetMultiplier = 0.5f; // while snapping, speed from the magnet is multiplied by this much
     bool currentlySnapping = false;
 
     [Header("Object Hookups")]
@@ -118,8 +117,12 @@ public class PlayerMovement : MonoBehaviour
 
                 rb.AddForce(snapDir * moveSpeed);
 
-                speedClamp += Mathf.Lerp(0, currentMagnetPull, (Vector2.Distance(transform.position, connectTarget.SnapPoint.position) / connectTarget.triggerRadius));
-                //speedClamp += (currentMagnetPull * snappingMagnetMultiplier);
+                // so while we're actively snapping to the target, we're reducing the force of the magnet pull
+                // based on the distance of the player to the snap point in the context of the sphere
+                // so as they get closer they go slower
+                // but it should be smooth and interpolated based on the player's movement right before
+                speedClamp += Mathf.Lerp(0, currentMagnetPull, 
+                    (Vector2.Distance(transform.position, connectTarget.SnapPoint.position) / connectTarget.triggerRadius));
             }
             
         }
