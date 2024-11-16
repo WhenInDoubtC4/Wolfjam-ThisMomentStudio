@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ConnectionManager : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class ConnectionManager : MonoBehaviour
     private bool connectionMode;
     private bool connectedBefore;
 
+    ConnectionPoint connectTarget;
+    Rigidbody2D rb;
 
 
     //change to enum
@@ -32,6 +35,7 @@ public class ConnectionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         //emoteAnimator = GetComponent<Animator>();
         SetRequiredEmote();
     }
@@ -165,4 +169,41 @@ public class ConnectionManager : MonoBehaviour
         displeasureDisplay.StartEffect();
     }
 
+
+
+
+    public void GetConnectTarget(ConnectionPoint connectPoint)
+    {
+        Debug.Log("SETTING TARGET");
+        connectTarget = connectPoint;
+    }
+
+    public void RemoveConnectTarget(ConnectionPoint point)
+    {
+        if (connectTarget == point)
+        {
+            connectTarget = null;
+        }
+    }
+
+    // this function snaps the player to the target so that we can run the animation sequence
+    void TrySnapTarget()
+    {
+        Debug.Log("TRY SNAP!");
+        if (connectTarget != null)
+        {
+            transform.position = connectTarget.SnapPoint.position;
+
+            // snap logic here
+            rb.velocity = Vector2.zero;
+            rb.isKinematic = true;
+
+
+
+            // So normally we should allow the player to run some sort of emote logic before ending the emote
+
+
+        }
+        
+    }
 }
