@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float maxSpeed = 2f;
 
     float baseDrag;
+    bool moveActivated = false;
 
     [Header("Magnet Variables")]
     [SerializeField] float magnetRadius = 5f;
@@ -64,22 +65,26 @@ public class PlayerMovement : MonoBehaviour
     {
         UpdateMagnetPull();
 
-        Move();
-
-        SetRotation();
-
-
-        if (moveInput != Vector2.zero)
+        if (moveActivated)
         {
-            if (!audioSource.isPlaying)
-			{               
-                audioSource.Play();                
-			}
-		}
-        else
-        {
-            audioSource.Stop();
+            Move();
+
+            SetRotation();
+
+
+            if (moveInput != Vector2.zero)
+            {
+                if (!audioSource.isPlaying)
+                {
+                    audioSource.Play();
+                }
+            }
+            else
+            {
+                audioSource.Stop();
+            }
         }
+
     }
 
     void UpdateMagnetPull()
@@ -255,5 +260,14 @@ public class PlayerMovement : MonoBehaviour
     {
         currentlySnapping = false;
         emoteHandler.emoteTarget = null;
+    }
+
+    public void SetMoveActivated(bool value)
+    {
+        moveActivated = value;
+        if (!value)
+        {
+            rb.velocity = Vector3.zero;
+        }
     }
 }
