@@ -46,8 +46,10 @@ public class EmoteHandler : MonoBehaviour
                 break;
         }
 
-        // use emoteTarget for emote logic.
-
+        if(emoteTarget != null)
+        {
+            emoteTarget.GetComponent<ConnectionManager>().TryEmote(emote);
+        }
     }
 
     public void FinishEmote()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ConnectionManager : MonoBehaviour
 {
@@ -10,8 +11,16 @@ public class ConnectionManager : MonoBehaviour
     [SerializeField] private float vingnetteIncreaseAmount;
     [SerializeField] private Color[] emoteColors;
 
+    [SerializeField] private ScribbleDisplay displeasureDisplay;
+
+    private PlayerMovement player;
+
     private bool connectionMode;
     private bool connectedBefore;
+
+    ConnectionPoint connectTarget;
+    Rigidbody2D rb;
+
 
     //change to enum
     private EmoteEnum requiredEmote;
@@ -26,13 +35,14 @@ public class ConnectionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        emoteAnimator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        //emoteAnimator = GetComponent<Animator>();
         SetRequiredEmote();
     }
     private void SetRequiredEmote()
     {
         //change this to set the emote enum
-        int emoteNum = Random.Range(0, 3);
+        requiredEmote = (EmoteEnum)Random.Range(0, 3);
     }
 
     public bool CanConnect()
@@ -41,8 +51,12 @@ public class ConnectionManager : MonoBehaviour
     }
 
     //functions returns true if connection can be started, false if it can't be started
-    public void StartConnection(bool player)
+    public void StartConnection(bool isPlayer,PlayerMovement newPlayer)
     {
+        if(isPlayer)
+        {
+            player = newPlayer;
+        }
         if(player && !connectedBefore)
         {
             connectionMode = true;
@@ -64,11 +78,11 @@ public class ConnectionManager : MonoBehaviour
         lastTriedEmote = emote;
         if(connectionMode)
         {
-            Debug.Log(emote);
             if(!connectedBefore)
             {
                 if (emote == requiredEmote)
                 {
+                    Debug.Log("correct emote!");
                     PerformEmote(requiredEmote);
                 }
                 else
@@ -106,15 +120,19 @@ public class ConnectionManager : MonoBehaviour
                 SetAnimValue("Yellow", true);
                 break;
         }
+
+
+        FinishConnection();
     }
     void SetAnimValue(string name, bool value)
     {
-        emoteAnimator.SetBool(name, value);
+        //emoteAnimator.SetBool(name, value);
     }
 
     //this should be called at a certain point in the emote animation
     public void FinishConnection()
     {
+        //change color of ai
         //spriteColor = emoteColors[lastTriedEmote];
 
         connectionMode = false;
@@ -122,6 +140,11 @@ public class ConnectionManager : MonoBehaviour
 
         totalConnections++;
         //give camera total number of connections
+
+        player.EndEmote();
+
+
+        //add function to tell ai connection is over 
     }
 
     //pass in enum for tried emote
@@ -141,6 +164,47 @@ public class ConnectionManager : MonoBehaviour
     }
     private void DisplayDispleasure()
     {
+        Debug.Log("bad");
         //do whatever is needed to display the cloud thing
+        displeasureDisplay.StartEffect();
+    }
+
+
+
+
+    public void GetConnectTarget(ConnectionPoint connectPoint)
+    {
+        Debug.Log("SETTING TARGET");
+        connectTarget = connectPoint;
+    }
+
+    public void RemoveConnectTarget(ConnectionPoint point)
+    {
+        if (connectTarget == point)
+        {
+            connectTarget = null;
+        }
+    }
+
+    // this function snaps the player to the target so that we can run the animation sequence
+    public void TrySnapTarget()
+    {
+        Debug.Log("TRY SNAP!");
+        if (connectTarget != null)
+        {
+            Debug.Log("attempting ai snap");
+            transform.position = connectTarget.SnapPoint.position;
+
+            // snap logic here
+            rb.velocity = Vector2.zero;
+            rb.isKinematic = true;
+
+
+
+            // So normally we should allow the player to run some sort of emote logic before ending the emote
+
+
+        }
+        
     }
 }

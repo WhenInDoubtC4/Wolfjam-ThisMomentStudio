@@ -284,7 +284,7 @@ Transform:
   m_GameObject: {fileID: 860140518}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.503, y: 0, z: 0}
+  m_LocalPosition: {x: -0.35, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -394,12 +394,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 45
-  maxSpeed: 3
+  maxSpeed: 4
   magnetRadius: 5
   magnetAngle: 0.3
-  maxMagnetPull: 15
+  maxMagnetPull: 7
   currentMagnetPull: 0
   magnetDrag: 2
+  distToHardSnap: 0.3
   emoteHandler: {fileID: 994479141}
 --- !u!58 &994479138
 CircleCollider2D:
@@ -611,8 +612,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 860140519}
   m_Father: {fileID: 1987470443}
@@ -899,7 +900,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
