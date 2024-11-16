@@ -305,6 +305,7 @@ GameObject:
   - component: {fileID: 994479138}
   - component: {fileID: 994479140}
   - component: {fileID: 994479141}
+  - component: {fileID: 994479142}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -394,13 +395,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 45
-  maxSpeed: 4
+  maxSpeed: 3.8
   magnetRadius: 5
-  magnetAngle: 0.3
-  maxMagnetPull: 7
+  magnetAngle: 90
+  maxMagnetPull: 6
   currentMagnetPull: 0
   magnetDrag: 2
-  distToHardSnap: 0.3
+  distToHardSnap: 0.25
+  snapResistance: 0.65
   emoteHandler: {fileID: 994479141}
 --- !u!58 &994479138
 CircleCollider2D:
@@ -499,6 +501,102 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   emoteAnimator: {fileID: 994479140}
   emoteTarget: {fileID: 0}
+--- !u!82 &994479142
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994479134}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: b1b35ae3cee5a634bb0f1caa54e324d7, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1130623528
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,6 +730,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SnapPoint: {fileID: 860140519}
   characterObject: {fileID: 1987470440}
+  onInteract:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!212 &1816436769
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -999,6 +1100,7 @@ MonoBehaviour:
   zoomIncreaseAmount: 0
   vingnetteIncreaseAmount: 0
   emoteColors: []
+  displeasureDisplay: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
