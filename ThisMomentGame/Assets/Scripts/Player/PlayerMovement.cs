@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
 
     AudioSource audioSource;
 
-    GameObject magnetTarget = null;
+    public GameObject magnetTarget = null;
 
     [Header("Snap Variables")]
     [SerializeField] float distToHardSnap = 0.25f; // this is how far the player has to be from a snap point to snap to it
@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
 
     Vector2 moveInput;
 
-    ConnectionPoint connectTarget;
+    public ConnectionPoint connectTarget;
 
     [SerializeField] private Animator myAnimator;
 
@@ -244,7 +244,7 @@ public class PlayerMovement : MonoBehaviour
             emoteHandler.emoteTarget = connectTarget.characterObject;
 
             // So normally we should allow the player to run some sort of emote logic before ending the emote
-            Invoke("EndEmote", 1.2f);
+            //Invoke("EndEmote", 1.2f);
 
         }
         else

@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class ConnectionManager : MonoBehaviour
 {
+    public UnityEvent onConnectionFinished = new UnityEvent();
+
     private static int totalConnections;
 
     [SerializeField] private float newConnectionDelay;
@@ -173,7 +176,8 @@ public class ConnectionManager : MonoBehaviour
     //this should be called at a certain point in the emote animation
     public void FinishConnection()
     {
-        connectTarget.OnSuccessfulInteract();
+        onConnectionFinished.Invoke();
+        //connectTarget.OnSuccessfulInteract();
 
         connectTarget = null;
 

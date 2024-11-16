@@ -44,12 +44,13 @@ public class ConnectionPoint : MonoBehaviour
         //Debug.Log(" connecting: " + connecting + " can connect " + canConnect + " other connecting " + otherConnecting + " other can connect " + otherCanConnect + " connected before " + connectedBefore);
         if (player != null && !connectedBefore)
         {
+            player.GetConnectTarget(this);
             //Debug.Log("player connect");
             //player.GetConnectTarget(this);
             //onInteract.Invoke();
 
-            ////set emote target
-            //characterObject.GetComponent<ConnectionManager>().StartConnection(true,player);
+            //set emote target
+            characterObject.GetComponent<ConnectionManager>().StartConnection(true, player);
         }
         else if(other.tag == "AIGuy" && canConnect && otherCanConnect && !connecting && !otherConnecting && connectedBefore)
         {
@@ -68,13 +69,9 @@ public class ConnectionPoint : MonoBehaviour
     public void OnSuccessfulInteract()
     {
         PlayerMovement player = FindObjectOfType<PlayerMovement>();
-
         Debug.Log("player connect");
-        player.GetConnectTarget(this);
+        
         onInteract.Invoke();
-
-        //set emote target
-        characterObject.GetComponent<ConnectionManager>().StartConnection(true, player);
     }
 
     private void OnTriggerExit2D(Collider2D other)
