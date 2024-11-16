@@ -23,10 +23,12 @@ public class ConnectionPoint : MonoBehaviour
     {
         Debug.Log("TRIGGER ENTER");
         PlayerMovement player = other.GetComponent<PlayerMovement>();
+        bool canConnect = characterObject.GetComponent<ConnectionManager>().CanConnect();
 
-        if (player != null)
+        if (player != null && canConnect)
         {
             player.GetConnectTarget(this);
+            characterObject.GetComponent<ConnectionManager>().StartConnection(other.gameObject);
         }
     }
 
