@@ -29,6 +29,7 @@ public class ConnectionManager : MonoBehaviour
     ConnectionPoint connectTarget;
     Rigidbody2D rb;
 
+    bool correctConnectionHappening = false;
 
     //change to enum
     private EmoteEnum requiredEmote;
@@ -94,7 +95,9 @@ public class ConnectionManager : MonoBehaviour
             else if (!isPlayer && connectedBefore)
             {
                 Debug.Log("doing emote on ai");
-                PerformEmote(requiredEmote);
+
+                // WHAT DO HERE???
+                //PerformEmote(requiredEmote);
             }
             else if (!player)
             {
@@ -126,8 +129,12 @@ public class ConnectionManager : MonoBehaviour
                 if (emote == requiredEmote)
                 {
                     Debug.Log("correct emote!");
-                    PerformEmote(requiredEmote);
-                    FinishConnection();
+                    correctConnectionHappening = true;
+
+                    FindObjectOfType<AnimWatcher>().animFinished.AddListener(EmoteFinished);
+                    // emote handler do emote?
+                    //PerformEmote(requiredEmote);
+                    
                 }
                 else
                 {
@@ -138,39 +145,18 @@ public class ConnectionManager : MonoBehaviour
             {
                 //this is for when another ai performs an emote and this ai matches it
                 //should only get here with ai->ai interaction
-                PerformEmote(emote);
+
+                // emote handler do emote?
+                //PerformEmote(emote);
             }
         }
     }
-    private void PerformEmote(EmoteEnum emote)
+    public void EmoteFinished()
     {
-        SetAnimValue("Red", false);
-        SetAnimValue("Green", false);
-        SetAnimValue("Blue", false);
-        SetAnimValue("Yellow", false);
-
-        switch (emote)
+        if (correctConnectionHappening)
         {
-            case EmoteEnum.Red:
-                SetAnimValue("Red", true);
-                break;
-            case EmoteEnum.Green:
-                SetAnimValue("Green", true);
-                break;
-            case EmoteEnum.Blue:
-                SetAnimValue("Blue", true);
-                break;
-            case EmoteEnum.Yellow:
-                SetAnimValue("Yellow", true);
-                break;
-        }
-
-
-        
-    }
-    void SetAnimValue(string name, bool value)
-    {
-        //emoteAnimator.SetBool(name, value);
+            FinishConnection();
+        }        
     }
 
     //this should be called at a certain point in the emote animation
@@ -238,7 +224,8 @@ public class ConnectionManager : MonoBehaviour
     }
     private void ReachedTarget()
     {
-        PerformEmote(requiredEmote);
+        // emote handler do emote?
+        //PerformEmote(requiredEmote);       
         FinishConnection();
     }
     private void SnapMovement()

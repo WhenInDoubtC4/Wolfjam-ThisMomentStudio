@@ -328,9 +328,11 @@ MonoBehaviour:
   maxMagnetPull: 7
   currentMagnetPull: 0
   magnetDrag: 2
+  magnetTarget: {fileID: 0}
   distToHardSnap: 0.25
   snapResistance: 0.65
   emoteHandler: {fileID: 7149922680270527131}
+  connectTarget: {fileID: 0}
   myAnimator: {fileID: 1096774662985384864}
 --- !u!50 &7959938008629939690
 Rigidbody2D:
@@ -575,6 +577,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: af83d2f7b986251429449c78df124a51, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1096774662985384864}
+    - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: af83d2f7b986251429449c78df124a51, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2172349546738867318}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: af83d2f7b986251429449c78df124a51, type: 3}
 --- !u!4 &666322537207559724 stripped
 Transform:
@@ -607,3 +612,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2172349546738867318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871062052175130191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25af343d5b02a4745a23512ad1fbe053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animFinished:
+    m_PersistentCalls:
+      m_Calls: []

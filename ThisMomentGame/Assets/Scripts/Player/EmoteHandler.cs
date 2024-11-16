@@ -11,7 +11,7 @@ public class EmoteHandler : MonoBehaviour
     [SerializeField] Animator emoteAnimator;
 
     public GameObject emoteTarget;
-  
+
     // Start is called before the first frame update
     void Start()
     {
