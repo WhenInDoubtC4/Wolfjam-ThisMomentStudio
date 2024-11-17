@@ -1871,7 +1871,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 45
-  maxSpeed: 3
+  maxSpeed: 1.2
   magnetRadius: 5
   magnetAngle: 0.3
   maxMagnetPull: 2
@@ -1926,7 +1926,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   multicolorShader: {fileID: -6465566751694194690, guid: cbc33d2c2226c5b41b24e2b5870aaae0, type: 3}
-  targetSprtie: {fileID: 0}
+  targetSprtie: {fileID: 5667488402529603238}
 --- !u!95 &-6717122544482697527
 Animator:
   serializedVersion: 5

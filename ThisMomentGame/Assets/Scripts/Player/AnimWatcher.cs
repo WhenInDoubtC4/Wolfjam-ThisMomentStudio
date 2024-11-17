@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class AnimWatcher : MonoBehaviour
 {
-    public UnityEvent animFinished;
+    public UnityEvent animFinished = new();
     public void AnimationFinished()
     {
         Debug.Log("ANIMATION FINISHED");

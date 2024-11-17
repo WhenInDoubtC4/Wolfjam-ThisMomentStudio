@@ -151,7 +151,7 @@ public class CharacterAgent : MonoBehaviour
 
             other.AssignColor(currentColor);
 
-        //    stateMachine.SwitchStates(wanderState);
+            stateMachine.SwitchStates(wanderState);
         //}
         //else
         //{
