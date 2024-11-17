@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class ConnectionManager : MonoBehaviour
 {
-    public UnityEvent onConnectionFinished = new UnityEvent();
+    public UnityEvent<EmoteEnum> onConnectionFinished = new();
 
     private static int totalConnections;
 
@@ -58,6 +58,8 @@ public class ConnectionManager : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         //emoteAnimator = GetComponent<Animator>();
         SetRequiredEmote();
+
+
     }
     private void SetRequiredEmote()
     {
@@ -128,7 +130,7 @@ public class ConnectionManager : MonoBehaviour
             {
                 if (emote == requiredEmote)
                 {
-                    Debug.Log("correct emote!");
+                    Debug.LogError("correct emote!");
                     correctConnectionHappening = true;
 
                     FindObjectOfType<AnimWatcher>().animFinished.AddListener(EmoteFinished);
@@ -162,7 +164,8 @@ public class ConnectionManager : MonoBehaviour
     //this should be called at a certain point in the emote animation
     public void FinishConnection()
     {
-        onConnectionFinished.Invoke();
+        Debug.Log(lastTriedEmote.ToString());
+        onConnectionFinished.Invoke(lastTriedEmote);
         //connectTarget.OnSuccessfulInteract();
 
         connectTarget = null;
