@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -48,6 +49,8 @@ public class CS_SeekState : CharacterState
 
             //Check if agent is within radius
             if ((agent.transform.position - parent.transform.position).magnitude > seekRadius) continue;
+
+            if (agent.gameObject == GameObject.FindObjectOfType<PlayerMovement>().connectTarget.gameObject) continue;
 
             //Check if agent has color assigned
             if (!agent.hasColorAssigned)

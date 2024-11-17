@@ -48,6 +48,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioSource enterConnectionAudio;
     private float OriginalXScale;
 
+    float targetDirection;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -160,7 +162,17 @@ public class PlayerMovement : MonoBehaviour
     {
         moveActivated = false;
         myAnimator.SetBool("Walking", false);
-        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        if(targetDirection > 0)
+        {
+            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        }
+        Transform AItransform = connectTarget.transform.root;
+        float AIdirection = AItransform.position.x - transform.position.x;
+        if(AIdirection > 0)
+        {
+            AItransform.localScale = new Vector3(-AItransform.localScale.x, AItransform.localScale.y, AItransform.localScale.z);
+        }
+
         enterConnectionAudio.Play();
     }
     void Move()
@@ -258,6 +270,7 @@ public class PlayerMovement : MonoBehaviour
         connectTarget = connectPoint;
 
         TrySnapTarget();
+        targetDirection = transform.position.x - connectTarget.transform.position.x;
     }
 
     public void RemoveConnectTarget(ConnectionPoint point)
