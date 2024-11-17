@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
+
+    public static UnityEvent onGameComplete = new();
 
     public static GameManager Instance
     { 
@@ -47,5 +50,7 @@ public class GameManager : MonoBehaviour
     public void AllNpcsAssigned()
     {
         Debug.LogWarning("Game manager win state: All NPCs have been assigned a color");
+
+        onGameComplete.Invoke();
     }
 }

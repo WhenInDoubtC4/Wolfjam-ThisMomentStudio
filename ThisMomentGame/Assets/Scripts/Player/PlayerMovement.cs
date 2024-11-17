@@ -8,13 +8,12 @@ using static UnityEngine.InputSystem.DefaultInputActions;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private bool canMove = true;
-
     [Header("Move Variables")]
     [SerializeField] float moveSpeed = 7f;
     [SerializeField] float maxSpeed = 2f;
 
     float baseDrag;
+    bool moveActivated = true;
 
     [Header("Magnet Variables")]
     [SerializeField] float magnetRadius = 5f;
@@ -24,7 +23,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float currentMagnetPull = 0f;
     [SerializeField] float magnetDrag = 0.3f;
 
-    GameObject magnetTarget = null;
+    AudioSource audioSource;
+
+    public GameObject magnetTarget = null;
 
     [Header("Snap Variables")]
     [SerializeField] float distToHardSnap = 0.25f; // this is how far the player has to be from a snap point to snap to it
@@ -41,15 +42,18 @@ public class PlayerMovement : MonoBehaviour
 
     Vector2 moveInput;
 
-    ConnectionPoint connectTarget;
+    public ConnectionPoint connectTarget;
 
     [SerializeField] private Animator myAnimator;
-    private float originalXScale;
+    [SerializeField] private AudioSource enterConnectionAudio;
+    private float OriginalXScale;
 
     // Start is called before the first frame update
     void Awake()
     {
-        originalXScale = transform.localScale.x;
+        OriginalXScale = transform.localScale.x;
+        audioSource = GetComponent<AudioSource>();
+
         actions = new PlayerActions();
         actions.Enable();
 
@@ -66,12 +70,26 @@ public class PlayerMovement : MonoBehaviour
     {
         UpdateMagnetPull();
 
-        if (canMove)
+        if (moveActivated)
         {
             Move();
+
+            SetRotation();
+
+
+            if (moveInput != Vector2.zero)
+            {
+                if (!audioSource.isPlaying)
+                {
+                    audioSource.Play();
+                }
+            }
+            else
+            {
+                audioSource.Stop();
+            }
         }
 
-        SetRotation();
     }
 
     void UpdateMagnetPull()
@@ -94,6 +112,7 @@ public class PlayerMovement : MonoBehaviour
                     (1 - Vector3.Distance(transform.position, magnetTarget.transform.position) / magnetRadius));
             }
         }
+
     }
 
     // chatgpt 
@@ -114,51 +133,39 @@ public class PlayerMovement : MonoBehaviour
         // Check if the angle is within the view cone
         return Mathf.Abs(angleToTarget) <= magnetAngle;
     }
-    void SetWalkingAnimation()
+
+    private void UpdateWalk()
     {
-        if((moveInput != Vector2.zero || currentlySnapping))
+        if(rb.velocity.magnitude > 0.1f)
         {
             myAnimator.SetBool("Walking", true);
-            //Debug.Log("MOVE IS " + moveInput);
         }
         else
         {
             myAnimator.SetBool("Walking", false);
         }
 
-        if(rb.velocity.x < 0)
-        {
-            transform.localScale = new Vector3(-originalXScale,transform.localScale.y,transform.localScale.z);
-        }
-        else
-        {
-            transform.localScale = new Vector3(originalXScale, transform.localScale.y, transform.localScale.z);
-        }
+            myAnimator.SetBool("WalkingUp", false);
+            if (rb.velocity.x < 0)
+            {
+                transform.localScale = new Vector3(-OriginalXScale, transform.localScale.y, transform.localScale.z);
+            }
+            else
+            {
+                transform.localScale = new Vector3(OriginalXScale, transform.localScale.y, transform.localScale.z);
+            }
+        
     }
-    public void ToggleMovement(bool enabled)
+    private void ReachedConnection()
     {
-        if (enabled)
-        {
-            canMove = true;
-        }
-        else
-        {
-            rb.velocity = Vector3.zero;
-            canMove = false;
-            myAnimator.SetBool("Walking", false);
-        }
-
-    }
-    private void ReachedConnectionPosition()
-    {
-        currentlySnapping = false;
-        ToggleMovement(false);
+        moveActivated = false;
+        myAnimator.SetBool("Walking", false);
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        enterConnectionAudio.Play();
     }
     void Move()
     {
-        SetWalkingAnimation();
-        
+        UpdateWalk();
 
         float speedClamp = maxSpeed;
 
@@ -188,14 +195,14 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             // -------------------- SNAPPING MOVEMENT ----------------------- \\
-
             //Debug.Log(Vector2.Distance(connectTarget.SnapPoint.position, transform.position));
 
             if (Vector2.Distance(connectTarget.SnapPoint.position, transform.position) <= distToHardSnap)
             {
                 rb.velocity = Vector2.zero;
                 transform.position = connectTarget.SnapPoint.position;
-                ReachedConnectionPosition();
+                currentlySnapping = false;
+                ReachedConnection();
             }
             else
             {
@@ -284,7 +291,16 @@ public class PlayerMovement : MonoBehaviour
 
     public void EndEmote()
     {
-        ToggleMovement(true);
+        currentlySnapping = false;
         emoteHandler.emoteTarget = null;
+    }
+
+    public void SetMoveActivated(bool value)
+    {
+        moveActivated = value;
+        if (!value)
+        {
+            rb.velocity = Vector3.zero;
+        }
     }
 }

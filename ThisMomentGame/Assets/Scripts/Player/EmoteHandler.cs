@@ -11,7 +11,9 @@ public class EmoteHandler : MonoBehaviour
     [SerializeField] Animator emoteAnimator;
 
     public GameObject emoteTarget;
-  
+
+    bool doingEmote = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,11 +23,22 @@ public class EmoteHandler : MonoBehaviour
         emoteControls.Green.performed += ctx => DoEmote(EmoteEnum.Green);
         emoteControls.Blue.performed += ctx => DoEmote(EmoteEnum.Blue);
         emoteControls.Yellow.performed += ctx => DoEmote(EmoteEnum.Yellow);
+
+        FindObjectOfType<AnimWatcher>().animFinished.AddListener(EmoteFinished);
+    }
+
+    void EmoteFinished()
+    {
+        Debug.LogError("EMOTE DONE");
+        doingEmote = false;
     }
 
     void DoEmote(EmoteEnum emote)
     {
-        
+        if (doingEmote)
+            return;
+
+        doingEmote = true;
 
         //SetAnimValue("Red", false);
         //SetAnimValue("Green", false);
@@ -52,6 +65,8 @@ public class EmoteHandler : MonoBehaviour
         {
             emoteTarget.GetComponent<ConnectionManager>().TryEmote(emote);
         }
+
+        
     }
 
     public void FinishEmote()
