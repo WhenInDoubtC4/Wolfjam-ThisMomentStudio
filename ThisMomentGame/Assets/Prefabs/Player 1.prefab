@@ -232,6 +232,7 @@ GameObject:
   - component: {fileID: 299063966067336065}
   - component: {fileID: 7149922680270527131}
   - component: {fileID: 1076789570261626908}
+  - component: {fileID: 8713379373908605400}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Untagged
@@ -323,6 +324,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 45
   maxSpeed: 4
+  moveActivated: 1
   magnetRadius: 5
   magnetAngle: 0.3
   maxMagnetPull: 7
@@ -334,6 +336,7 @@ MonoBehaviour:
   emoteHandler: {fileID: 7149922680270527131}
   connectTarget: {fileID: 0}
   myAnimator: {fileID: 1096774662985384864}
+  enterConnectionAudio: {fileID: 0}
 --- !u!50 &7959938008629939690
 Rigidbody2D:
   serializedVersion: 4
@@ -506,6 +509,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8713379373908605400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5882056173889163700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be1856425183be44a1fbde906b4dccf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  multicolorShader: {fileID: -6465566751694194690, guid: cbc33d2c2226c5b41b24e2b5870aaae0, type: 3}
+  targetSprtie: {fileID: 2374606083965853523}
 --- !u!1001 &2166397284449914866
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -627,3 +644,8 @@ MonoBehaviour:
   animFinished:
     m_PersistentCalls:
       m_Calls: []
+--- !u!212 &2374606083965853523 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: -4691381383639723871, guid: af83d2f7b986251429449c78df124a51, type: 3}
+  m_PrefabInstance: {fileID: 2166397284449914866}
+  m_PrefabAsset: {fileID: 0}
