@@ -34513,6 +34513,8 @@ GameObject:
   - component: {fileID: 1028105761}
   - component: {fileID: 1028105760}
   - component: {fileID: 1028105759}
+  - component: {fileID: 1028105763}
+  - component: {fileID: 1028105762}
   m_Layer: 0
   m_Name: Share
   m_TagString: Untagged
@@ -34537,7 +34539,19 @@ MonoBehaviour:
   duration: 3
   OnFadeComplete:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1028105763}
+        m_TargetAssemblyTypeName: TimedTrigger, Assembly-CSharp
+        m_MethodName: StartCountdown
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 2
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!212 &1028105760
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -34605,6 +34619,64 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1028105762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028105758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caeaeccf49edab9408284ff8afe5f915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 1028105760}
+  targetColor: {r: 1, g: 1, b: 1, a: 0}
+  duration: 2
+  OnFadeComplete:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1028105758}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1028105763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028105758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462bf83b984564b438e6161f853dd1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uses: 0
+  events:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1028105762}
+        m_TargetAssemblyTypeName: FadeSprite, Assembly-CSharp
+        m_MethodName: TriggerFade
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1031207978
 GameObject:
   m_ObjectHideFlags: 0
@@ -78475,6 +78547,107 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3f3b3539c36f7e469517cc508075d94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &6797085613065163847
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 635719105911878297, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 15.37
+      objectReference: {fileID: 0}
+    - target: {fileID: 635719105911878297, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 15.37
+      objectReference: {fileID: 0}
+    - target: {fileID: 635719105911878297, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 15.37
+      objectReference: {fileID: 0}
+    - target: {fileID: 635719105911878297, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.370001
+      objectReference: {fileID: 0}
+    - target: {fileID: 635719105911878297, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 635719105911878297, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.09258509
+      objectReference: {fileID: 0}
+    - target: {fileID: 635719105911878297, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 635719105911878297, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 635719105911878297, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 635719105911878297, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 635719105911878297, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 635719105911878297, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 635719105911878297, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 635719105911878297, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 728888595812515400, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: triggerEvents.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 728888595812515400, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: triggerEvents.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 728888595812515400, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: triggerEvents.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1028105762}
+    - target: {fileID: 728888595812515400, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: triggerEvents.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 728888595812515400, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: triggerEvents.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: TriggerFade
+      objectReference: {fileID: 0}
+    - target: {fileID: 728888595812515400, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: triggerEvents.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: FadeSprite, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 728888595812515400, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: triggerEvents.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352792692426198653, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
+      propertyPath: m_Name
+      value: 'Keys Trigger '
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2dd11cdf37cecb948a38eda07273f0ff, type: 3}
 --- !u!114 &7884332456895784004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78503,3 +78676,4 @@ SceneRoots:
   - {fileID: 1003453973}
   - {fileID: 1535306810}
   - {fileID: 842525299}
+  - {fileID: 6797085613065163847}
