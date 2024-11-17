@@ -293,6 +293,8 @@ public class PlayerMovement : MonoBehaviour
     {
         currentlySnapping = false;
         emoteHandler.emoteTarget = null;
+
+        moveActivated = true;
     }
 
     public void SetMoveActivated(bool value)

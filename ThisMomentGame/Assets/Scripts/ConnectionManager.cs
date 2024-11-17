@@ -140,6 +140,7 @@ public class ConnectionManager : MonoBehaviour
                 }
                 else
                 {
+                    Debug.LogError("CORRECT IS " + requiredEmote);
                     WrongEmote(emote);
                 }
             }
@@ -158,6 +159,7 @@ public class ConnectionManager : MonoBehaviour
         if (correctConnectionHappening)
         {
             FinishConnection();
+            correctConnectionHappening = false;
         }        
     }
 

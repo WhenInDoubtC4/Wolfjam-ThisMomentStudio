@@ -117,17 +117,17 @@ public class CharacterAgent : MonoBehaviour
         Color col = Color.white;
         switch (color)
         {
-            case EmoteEnum.Red:
-                col = Color.red;
+            case EmoteEnum.Red:        
+                col = new Color(244.0f/255.0f, 99.0f / 255.0f, 81.0f / 255.0f); // orangey red
                 break;
             case EmoteEnum.Blue:
-                col = Color.blue;
+                col = new Color(42.0f / 255.0f, 219.0f / 255.0f, 178.0f / 255.0f); // cyany
                 break;
             case EmoteEnum.Green:
-                col = Color.green;
+                col = new Color(233.0f / 255.0f, 86.0f / 255.0f, 186.0f / 255.0f); // magentay
                 break;
             case EmoteEnum.Yellow:
-                col = Color.yellow;
+                col = new Color(244.0f / 255.0f, 196.0f / 255.0f, 106.0f / 255.0f); // yellowy
                 break;
         }
 
@@ -151,7 +151,7 @@ public class CharacterAgent : MonoBehaviour
 
             other.AssignColor(currentColor);
 
-        //    stateMachine.SwitchStates(wanderState);
+            stateMachine.SwitchStates(wanderState);
         //}
         //else
         //{
