@@ -1175,7 +1175,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3210573257693674125}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -1763,6 +1763,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2159699704924508419}
+  - {fileID: 5163494481987042222}
+  - {fileID: 7632070539892612556}
   - {fileID: 649104387205317003}
   - {fileID: 2501025988566616697}
   - {fileID: 3346203414229422348}
@@ -1772,8 +1774,6 @@ Transform:
   - {fileID: 429164438030685244}
   - {fileID: 8114751837944426324}
   - {fileID: 5886169896876573236}
-  - {fileID: 5163494481987042222}
-  - {fileID: 7632070539892612556}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1725533615000030973
@@ -1937,7 +1937,7 @@ Animator:
   m_GameObject: {fileID: 6057646112178740608}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4850a499724a44a408823c1520131248, type: 2}
+  m_Controller: {fileID: 9100000, guid: fc5a27cb2f2874a4a87c03e3bd427ed2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

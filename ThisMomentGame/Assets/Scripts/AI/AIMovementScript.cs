@@ -31,9 +31,14 @@ public class AIMovementScript : MonoBehaviour
 
     ConnectionPoint connectTarget;
 
+    Animator myAnimator;
+    private float originalXScale;
+
     // Start is called before the first frame update
     void Awake()
     {
+        originalXScale = transform.localScale.x;
+        myAnimator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         baseDrag = rb.drag;
 
@@ -50,7 +55,6 @@ public class AIMovementScript : MonoBehaviour
         rb.velocity = Vector2.zero;
         moveInput = Vector2.zero;
     }
-
     private void FixedUpdate()
     {
         moveInput = agent.aiMoveInput;
@@ -81,9 +85,33 @@ public class AIMovementScript : MonoBehaviour
 
         Move();
     }
+    private void UpdateWalk()
+    {
+        Debug.Log(rb.velocity.magnitude);
+        if (rb.velocity.magnitude > 0.1f)
+        {
+            myAnimator.SetBool("Walking", true);
+        }
+        else
+        {
+            myAnimator.SetBool("Walking", false);
+        }
 
+        myAnimator.SetBool("WalkingUp", false);
+        if (rb.velocity.x < -0.1f)
+        {
+            transform.localScale = new Vector3(-originalXScale, transform.localScale.y, transform.localScale.z);
+        }
+        else if (rb.velocity.x > 0.1f)
+        {
+            transform.localScale = new Vector3(originalXScale, transform.localScale.y, transform.localScale.z);
+        }
+
+    }
     public void Move()
     {
+        UpdateWalk();
+
         if (moveInput != Vector2.zero)
         {
             //Debug.Log("MOVE IS " + moveInput);
