@@ -98,11 +98,11 @@ public class AIMovementScript : MonoBehaviour
         }
 
         myAnimator.SetBool("WalkingUp", false);
-        if (rb.velocity.x < 0)
+        if (rb.velocity.x < -0.1f)
         {
             transform.localScale = new Vector3(-originalXScale, transform.localScale.y, transform.localScale.z);
         }
-        else
+        else if (rb.velocity.x > 0.1f)
         {
             transform.localScale = new Vector3(originalXScale, transform.localScale.y, transform.localScale.z);
         }
