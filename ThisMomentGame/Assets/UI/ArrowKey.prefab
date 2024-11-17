@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2627064313636548640}
   - component: {fileID: 7078778152913581270}
   - component: {fileID: 3271249877213269394}
+  - component: {fileID: 3528540876520398004}
+  - component: {fileID: 355048918688551794}
   m_Layer: 5
   m_Name: ArrowKey
   m_TagString: Untagged
@@ -29,7 +31,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -60,9 +62,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -97,3 +99,39 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3528540876520398004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635244528101673428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac3bb86323e3e5e4290f411514f88d16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 7078778152913581270}
+  targetColor: {r: 1, g: 1, b: 1, a: 0}
+  duration: 1
+  OnFadeComplete:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &355048918688551794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635244528101673428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac3bb86323e3e5e4290f411514f88d16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 7078778152913581270}
+  targetColor: {r: 1, g: 1, b: 1, a: 1}
+  duration: 1
+  OnFadeComplete:
+    m_PersistentCalls:
+      m_Calls: []
