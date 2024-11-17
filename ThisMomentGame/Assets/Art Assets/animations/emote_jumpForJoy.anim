@@ -146,15 +146,15 @@ AnimationClip:
       - serializedVersion: 3
         time: 1.75
         value: {x: 0, y: 0, z: 364.766}
-        inSlope: {x: 0, y: 0, z: -27.53337}
-        outSlope: {x: 0, y: 0, z: -27.53337}
+        inSlope: {x: 0, y: 0, z: -27.533371}
+        outSlope: {x: 0, y: 0, z: -27.533371}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1.9166666
-        value: {x: 0, y: 0, z: 257.516}
+        value: {x: 0, y: 0, z: 251.913}
         inSlope: {x: 0, y: 0, z: -536.34174}
         outSlope: {x: 0, y: 0, z: -536.34174}
         tangentMode: 0
@@ -447,7 +447,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1.9166666
-        value: {x: 0, y: 0, z: -78.377}
+        value: {x: 0, y: 0, z: -87.624}
         inSlope: {x: 0, y: 0, z: -503.29425}
         outSlope: {x: 0, y: 0, z: -503.29425}
         tangentMode: 0
@@ -2897,15 +2897,15 @@ AnimationClip:
       - serializedVersion: 3
         time: 1.75
         value: {x: 0.5718304, y: -0.7421278, z: 0}
-        inSlope: {x: 0, y: -0.12748468, z: 0}
-        outSlope: {x: 0, y: -0.12748468, z: 0}
+        inSlope: {x: -0.23338471, y: -0.17954816, z: 0}
+        outSlope: {x: -0.23338471, y: -0.17954816, z: 0}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 1.9166666
-        value: {x: 0.72983766, y: -0.7601881, z: 0}
+        value: {x: 0.50974685, y: -0.76756376, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -4762,15 +4762,15 @@ AnimationClip:
       - serializedVersion: 3
         time: 1.75
         value: 364.766
-        inSlope: -27.53337
-        outSlope: -27.53337
+        inSlope: -27.533371
+        outSlope: -27.533371
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1.9166666
-        value: 257.516
+        value: 251.913
         inSlope: -536.34174
         outSlope: -536.34174
         tangentMode: 136
@@ -5679,7 +5679,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1.9166666
-        value: -78.377
+        value: -87.624
         inSlope: -503.29425
         outSlope: -503.29425
         tangentMode: 136
@@ -7987,15 +7987,15 @@ AnimationClip:
       - serializedVersion: 3
         time: 1.75
         value: 0.5718304
-        inSlope: 0
-        outSlope: 0
+        inSlope: -0.23338471
+        outSlope: -0.23338471
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1.9166666
-        value: 0.72983766
+        value: 0.50974685
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -8098,15 +8098,15 @@ AnimationClip:
       - serializedVersion: 3
         time: 1.75
         value: -0.7421278
-        inSlope: -0.12748468
-        outSlope: -0.12748468
+        inSlope: -0.17954816
+        outSlope: -0.17954816
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1.9166666
-        value: -0.7601881
+        value: -0.76756376
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -16695,7 +16695,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: pelvis/spine_1/spine_2/r_shoulder
+    path: pelvis/spine_1/spine_2/r_shoulder/r_elbow/r_wrist/r_thumb_1
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -16707,7 +16707,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: pelvis/spine_1/spine_2/r_shoulder
+    path: pelvis/spine_1/spine_2/r_shoulder/r_elbow/r_wrist/r_thumb_1
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -16719,7 +16719,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: pelvis/spine_1/spine_2/r_shoulder
+    path: pelvis/spine_1/spine_2/r_shoulder/r_elbow/r_wrist/r_thumb_1
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -16731,7 +16731,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: pelvis/spine_1/spine_2/l_shoulder
+    path: pelvis/spine_1/spine_2/r_shoulder
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -16743,7 +16743,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: pelvis/spine_1/spine_2/l_shoulder
+    path: pelvis/spine_1/spine_2/r_shoulder
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -16755,7 +16755,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: pelvis/spine_1/spine_2/l_shoulder
+    path: pelvis/spine_1/spine_2/r_shoulder
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -17127,7 +17127,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: pelvis/spine_1/spine_2/r_shoulder/r_elbow/r_wrist/r_thumb_1
+    path: pelvis/spine_1/spine_2/l_shoulder
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -17139,7 +17139,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: pelvis/spine_1/spine_2/r_shoulder/r_elbow/r_wrist/r_thumb_1
+    path: pelvis/spine_1/spine_2/l_shoulder
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -17151,7 +17151,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: pelvis/spine_1/spine_2/r_shoulder/r_elbow/r_wrist/r_thumb_1
+    path: pelvis/spine_1/spine_2/l_shoulder
     classID: 4
     script: {fileID: 0}
     flags: 0
