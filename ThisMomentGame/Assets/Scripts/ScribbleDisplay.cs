@@ -34,6 +34,7 @@ public class ScribbleDisplay : MonoBehaviour
     {
         fadingIn = true;
         fadeInTimer = 0;
+        GetComponent<AudioSource>().Play();
     }
     private void FadeIn()
     {
@@ -41,7 +42,7 @@ public class ScribbleDisplay : MonoBehaviour
         {
             fadeInTimer += Time.deltaTime;
             float completetion = fadeInTimer / fadeInDuration;
-            scribbleSprite.color = new Color(scribbleSprite.color.r, scribbleSprite.color.g, scribbleSprite.color.b, completetion * 255);
+            scribbleSprite.color = new Color(scribbleSprite.color.r, scribbleSprite.color.g, scribbleSprite.color.b, completetion);
             if(fadeInTimer >= fadeInDuration)
             {
                 fadingIn = false;
@@ -67,9 +68,9 @@ public class ScribbleDisplay : MonoBehaviour
     {
         if (fadingOut)
         {
-            fadeOutTimer += Time.deltaTime;
+            fadeOutTimer -= Time.deltaTime;
             float completetion = fadeOutTimer / fadeOutDuration;
-            scribbleSprite.color = new Color(scribbleSprite.color.r, scribbleSprite.color.g, scribbleSprite.color.b, completetion * 255);
+            scribbleSprite.color = new Color(scribbleSprite.color.r, scribbleSprite.color.g, scribbleSprite.color.b, completetion);
             if (fadeOutTimer <= 0)
             {
                 fadingOut = false;

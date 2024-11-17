@@ -8,6 +8,8 @@ using static UnityEngine.InputSystem.DefaultInputActions;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private bool canMove = true;
+
     [Header("Move Variables")]
     [SerializeField] float moveSpeed = 7f;
     [SerializeField] float maxSpeed = 2f;
@@ -40,10 +42,14 @@ public class PlayerMovement : MonoBehaviour
     Vector2 moveInput;
 
     ConnectionPoint connectTarget;
-    
+
+    [SerializeField] private Animator myAnimator;
+    private float originalXScale;
+
     // Start is called before the first frame update
     void Awake()
     {
+        originalXScale = transform.localScale.x;
         actions = new PlayerActions();
         actions.Enable();
 
@@ -60,7 +66,10 @@ public class PlayerMovement : MonoBehaviour
     {
         UpdateMagnetPull();
 
-        Move();
+        if (canMove)
+        {
+            Move();
+        }
 
         SetRotation();
     }
@@ -73,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
             bool connectCheck = connectTarget == null;
             if (!connectCheck)
             {
-                Debug.Log("MAG IS " + magnetTarget + " AND CONNECT IS " + connectTarget.transform.parent.gameObject);
+                //Debug.Log("MAG IS " + magnetTarget + " AND CONNECT IS " + connectTarget.transform.parent.gameObject);
                 connectCheck = magnetTarget == connectTarget.transform.parent.gameObject;
             }
 
@@ -97,21 +106,59 @@ public class PlayerMovement : MonoBehaviour
         // Get the forward direction of the object (assume the object faces right by default in Unity 2D)
         Vector2 forward = transform.right;
 
-        Debug.Log("FORWARD IS " + forward);
+        //Debug.Log("FORWARD IS " + forward);
         // Calculate the angle
         float angleToTarget = Vector2.SignedAngle(forward, directionToTarget) - 90f;
-        Debug.Log("ANGLE TO TARGET IS " + angleToTarget);
+        //Debug.Log("ANGLE TO TARGET IS " + angleToTarget);
 
         // Check if the angle is within the view cone
         return Mathf.Abs(angleToTarget) <= magnetAngle;
     }
-
-    void Move()
+    void SetWalkingAnimation()
     {
-        if (moveInput != Vector2.zero)
+        if((moveInput != Vector2.zero || currentlySnapping))
         {
+            myAnimator.SetBool("Walking", true);
             //Debug.Log("MOVE IS " + moveInput);
         }
+        else
+        {
+            myAnimator.SetBool("Walking", false);
+        }
+
+        if(rb.velocity.x < 0)
+        {
+            transform.localScale = new Vector3(-originalXScale,transform.localScale.y,transform.localScale.z);
+        }
+        else
+        {
+            transform.localScale = new Vector3(originalXScale, transform.localScale.y, transform.localScale.z);
+        }
+    }
+    public void ToggleMovement(bool enabled)
+    {
+        if (enabled)
+        {
+            canMove = true;
+        }
+        else
+        {
+            rb.velocity = Vector3.zero;
+            canMove = false;
+            myAnimator.SetBool("Walking", false);
+        }
+
+    }
+    private void ReachedConnectionPosition()
+    {
+        currentlySnapping = false;
+        ToggleMovement(false);
+        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+    }
+    void Move()
+    {
+        SetWalkingAnimation();
+        
 
         float speedClamp = maxSpeed;
 
@@ -141,13 +188,14 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             // -------------------- SNAPPING MOVEMENT ----------------------- \\
-            
-            Debug.Log(Vector2.Distance(connectTarget.SnapPoint.position, transform.position));
+
+            //Debug.Log(Vector2.Distance(connectTarget.SnapPoint.position, transform.position));
 
             if (Vector2.Distance(connectTarget.SnapPoint.position, transform.position) <= distToHardSnap)
             {
                 rb.velocity = Vector2.zero;
                 transform.position = connectTarget.SnapPoint.position;
+                ReachedConnectionPosition();
             }
             else
             {
@@ -160,10 +208,10 @@ public class PlayerMovement : MonoBehaviour
                 // based on the distance of the player to the snap point in the context of the sphere
                 // so as they get closer they go slower
                 // but it should be smooth and interpolated based on the player's movement right before
-                speedClamp += Mathf.Lerp(0, currentMagnetPull, 
+                speedClamp += Mathf.Lerp(0, currentMagnetPull,
                     (Vector2.Distance(transform.position, connectTarget.SnapPoint.position) / connectTarget.triggerRadius));
             }
-            
+
         }
 
         // -------------------- CLAMP SPEED ----------------------- \\
@@ -176,7 +224,7 @@ public class PlayerMovement : MonoBehaviour
     void SetRotation()
     {
         float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg - 90f; // except for the -90 degree part that was a bugfix by Mason
-        rb.rotation = angle; // This directly sets Rigidbody2D's rotation
+        //rb.rotation = angle; // This directly sets Rigidbody2D's rotation
     }
 
     // these two functions set a magnet for the player that they will basically gravitate towards if they lean into it
@@ -226,7 +274,7 @@ public class PlayerMovement : MonoBehaviour
 
             // So normally we should allow the player to run some sort of emote logic before ending the emote
             //Invoke("EndEmote", 1.2f);
-            
+
         }
         else
         {
@@ -236,7 +284,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void EndEmote()
     {
-        currentlySnapping = false;
+        ToggleMovement(true);
         emoteHandler.emoteTarget = null;
     }
 }

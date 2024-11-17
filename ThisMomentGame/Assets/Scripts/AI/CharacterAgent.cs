@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class CharacterAgent : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class CharacterAgent : MonoBehaviour
     private CS_DummyState dummyState;
     private CS_SeekState seekState;
     private CS_GoToFurthestColorless goToFurthestColorlessState;
+    private CS_GoToSetColorless goToSetColorlessState;
     private CS_WanderState wanderState;
 
     [SerializeField]
@@ -27,12 +29,20 @@ public class CharacterAgent : MonoBehaviour
 
     public bool hasColorAssigned { get; private set; } = false;
 
+    public Vector2 aiMoveInput { get; private set; }
+    private Vector3 wanderTarget;
+
+    public UnityEvent targetReached = new();
+
+    private Coroutine timeoutCo;
+
     // Start is called before the first frame update
     void Start()
     {
         dummyState = new CS_DummyState(this.gameObject);
         seekState = new CS_SeekState(this.gameObject);
         goToFurthestColorlessState = new CS_GoToFurthestColorless(this.gameObject);
+        goToSetColorlessState = new CS_GoToSetColorless(this.gameObject);
         wanderState = new CS_WanderState(this.gameObject);
         
         stateMachine = new CharacterStateMachine(dummyState);
@@ -45,12 +55,15 @@ public class CharacterAgent : MonoBehaviour
         goToFurthestColorlessState.onFoundFurtherstColorlessAgent.AddListener(OnGoToFurthestFoundColorlessAgent);
         goToFurthestColorlessState.onReachedFurthestColorlessAgent.AddListener(OnGoToFurthestReachedColorlessAgent);
 
+        goToSetColorlessState.onTargetReached.AddListener(OnSetColorlessTargetReached);
+
         wanderState.wanderRadius = wanderRadius;
         wanderState.wanderTimeout = wanderTimeoutSeconds;
         wanderState.onWanderTargetPicked.AddListener(OnWanderStateTargetPicked);
         wanderState.onWanderingComplete.AddListener(OnWanderingComplete);
 
-        navAgentComponent = GetComponent<NavMeshAgent>();
+        //navAgentComponent = GetComponent<NavMeshAgent>();
+        navAgentComponent = GetComponentInChildren<NavMeshAgent>();
         if (!navAgentComponent)
         {
             Debug.LogError("Cannot find nav mesh agent component on character agent");
@@ -61,36 +74,42 @@ public class CharacterAgent : MonoBehaviour
         navAgentComponent.updateUpAxis = false;
         navAgentComponent.updateRotation = false;
 
-        navAgentComponent.SetDestination(testTarget.transform.position);
-
-        //TODO: Remove this later
-        StartCoroutine(TEMP_AutoAssignColor());
-    }
-
-    //Temporary!
-    IEnumerator TEMP_AutoAssignColor()
-    {
-        yield return new WaitForSeconds(5f);
-
-        AssignColor();
+        //navAgentComponent.SetDestination(new Vector3(5f, 5f, transform.position.z));
     }
 
     void Update()
     {
         stateMachine.DoUpdate(Time.deltaTime);
+
+        //If reached wander destination abort
+        if ((wanderTarget - transform.position).magnitude <= 1f) navAgentComponent.ResetPath();
     }
 
     private void FixedUpdate()
     {
         stateMachine.DoFixedUpdate(Time.fixedDeltaTime);
+
+        navAgentComponent.gameObject.transform.localPosition = Vector2.zero;
+
+        if ((navAgentComponent.destination - transform.position).magnitude <= 0.08f)
+        {
+            aiMoveInput = Vector2.zero;
+            targetReached.Invoke();
+        }
+        else
+        {
+            aiMoveInput = navAgentComponent.desiredVelocity.normalized;
+        }
     }
 
     public void AssignColor()
     {
         //TODO: Stub function for when a color gets assigned to this agent
-        Debug.Log("Color has been assigned");
+        Debug.Log(gameObject.name + "Color has been assigned");
 
         hasColorAssigned = true;
+
+        GetComponent<ColorChanger>().AssignNewColor(Color.red);
 
         //Start seeking
         stateMachine.SwitchStates(seekState);
@@ -98,18 +117,22 @@ public class CharacterAgent : MonoBehaviour
 
     private void TryAssignColorToOther(CharacterAgent other)
     {
-        //TODO: Check if the initial 4 assignments have been performed here!
-        bool hasInitialAssignments = false;
+        //Check if the initial 4 assignments have been performed here!
+        bool hasInitialAssignments = GameManager.Instance.colorAssignments >= 4;
 
         if (hasInitialAssignments)
         {
+            if (timeoutCo != null) StopCoroutine(timeoutCo);
+            timeoutCo = null;
+
             other.AssignColor();
 
             stateMachine.SwitchStates(wanderState);
         }
         else
         {
-            StartCoroutine(NoInitialAssignmentsTimeoutCo(other));
+            //timeoutCo = StartCoroutine(NoInitialAssignmentsTimeoutCo(other));
+            stateMachine.SwitchStates(wanderState);
         }
     }
 
@@ -120,46 +143,70 @@ public class CharacterAgent : MonoBehaviour
         TryAssignColorToOther(otherAgent);
     }
 
-    private void OnSeekFoundAgentWithColor(CharacterAgent other)
+    public void OnPlayerIntreact()
     {
-        Debug.Log("Seek state found another agent with color already assigned");
+        //Already as a color assigned
+        if (hasColorAssigned) return;
+
+        AssignColor();
+        GameManager.Instance.IncrementColorAssignments();
     }
 
-    private void OnSeekFoundAgentWithoutColor(CharacterAgent other)
+    private void OnSeekFoundAgentWithColor(CharacterAgent other)
     {
-        Debug.Log("Seek state found agent without color assigned");
+        Debug.Log(gameObject.name + "Seek state found another agent with color already assigned");
 
         //TODO: Perform each other's actions here
 
         stateMachine.SwitchStates(goToFurthestColorlessState);
     }
 
+    private void OnSeekFoundAgentWithoutColor(CharacterAgent other)
+    {
+        Debug.Log(gameObject.name + "Seek state found agent without color assigned");
+
+        //TODO: Walk to target and try assign color
+        stateMachine.SwitchStates(goToSetColorlessState);
+        goToSetColorlessState.target = other;
+        navAgentComponent.SetDestination(new Vector3(other.transform.position.x, other.transform.position.y, transform.position.z));
+    }
+
+    private void OnSetColorlessTargetReached(CharacterAgent other)
+    {
+        navAgentComponent.ResetPath();
+        navAgentComponent.destination = transform.position;
+        TryAssignColorToOther(other);
+    }
+
     private void OnSeekFoundNothing()
     {
-        Debug.Log("Seek state did not find any other agents");
+        Debug.Log(gameObject.name + "Seek state did not find any other agents");
 
         stateMachine.SwitchStates(wanderState);
     }
 
     private void OnGoToFurthestFoundColorlessAgent(CharacterAgent other)
     {
-        navAgentComponent.SetDestination(other.transform.position);
+        navAgentComponent.SetDestination(new Vector3(other.transform.position.x, other.transform.position.y, transform.position.z));
     }
 
     private void OnGoToFurthestReachedColorlessAgent(CharacterAgent other)
     {
+        navAgentComponent.ResetPath();
+        navAgentComponent.destination = transform.position;
         TryAssignColorToOther(other);
     }
 
     private void OnWanderStateTargetPicked(Vector3 target)
     {
-        Debug.Log("Going to new wandering target" + target.ToString());
-        navAgentComponent.SetDestination(target);
+        Debug.Log(gameObject.name + "Going to new wandering target" + target.ToString());
+        navAgentComponent.SetDestination(new Vector3(target.x, target.y, transform.position.z));
+        wanderTarget = target;
     }
 
     private void OnWanderingComplete()
     {
-        Debug.Log("Wandering complete, returning to seek state");
+        Debug.Log(gameObject.name + "Wandering complete, returning to seek state");
         stateMachine.SwitchStates(seekState);
     }
 }

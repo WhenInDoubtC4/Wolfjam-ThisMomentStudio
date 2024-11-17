@@ -43,21 +43,27 @@ public class CS_SeekState : CharacterState
     {
         foreach (CharacterAgent agent in GameObject.FindObjectsByType<CharacterAgent>(FindObjectsSortMode.None))
         {
+            //Avoid self
+            if (agent.transform.position == parent.transform.position) continue;
+
             //Check if agent is within radius
             if ((agent.transform.position - parent.transform.position).magnitude > seekRadius) continue;
 
             //Check if agent has color assigned
-            if (agent.hasColorAssigned)
+            if (!agent.hasColorAssigned)
             {
-                onFoundAgentWithColor.Invoke(agent);
+                onFoundAgentWithoutColor.Invoke(agent);
+                return;
             }
             else
             {
-                onFoundAgentWithoutColor.Invoke(agent);
+                onFoundAgentWithColor.Invoke(agent);
+                return;
             }
         }
 
         //Found nothing within the seek radius
         onFoundNothing.Invoke();
+        return;
     }
 }

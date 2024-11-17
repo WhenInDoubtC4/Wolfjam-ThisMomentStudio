@@ -7,6 +7,11 @@ public class ConnectionManager : MonoBehaviour
 {
     private static int totalConnections;
 
+    [SerializeField] private float newConnectionDelay;
+    private float newConnectionTimer;
+    private bool canConnect;
+
+
     [SerializeField] private float zoomIncreaseAmount;
     [SerializeField] private float vingnetteIncreaseAmount;
     [SerializeField] private Color[] emoteColors;
@@ -30,11 +35,22 @@ public class ConnectionManager : MonoBehaviour
     private List<EmoteEnum> triedEmotes;
 
     private EmoteEnum lastTriedEmote;
-    
 
+    [Header("Snap Variables")]
+    [SerializeField] private float snapMoveSpeed;
+    [SerializeField] private float snapMaxSpeed;
+    [SerializeField] float distToHardSnap = 0.25f; // this is how far the player has to be from a snap point to snap to it
+    [SerializeField] float snapResistance = 0.65f;
+
+    private void Update()
+    {
+        SnapMovement();
+        ConnectionDelay();
+    }
     // Start is called before the first frame update
     void Start()
     {
+        canConnect = true;
         rb = GetComponent<Rigidbody2D>();
         //emoteAnimator = GetComponent<Animator>();
         SetRequiredEmote();
@@ -47,28 +63,52 @@ public class ConnectionManager : MonoBehaviour
 
     public bool CanConnect()
     {
-        return !connectedBefore;
+        return canConnect;
+    }
+    public bool ConnectedBefore()
+    {
+        return connectedBefore;
+    }
+    public bool Connecting()
+    {
+        return connectionMode;
     }
 
     //functions returns true if connection can be started, false if it can't be started
     public void StartConnection(bool isPlayer,PlayerMovement newPlayer)
     {
-        if(isPlayer)
-        {
-            player = newPlayer;
-        }
-        if(player && !connectedBefore)
+        if(!connectionMode && canConnect)
         {
             connectionMode = true;
-            triedEmotes = new List<EmoteEnum>();
+            if (isPlayer)
+            {
+                player = newPlayer;
+            }
+            if (isPlayer && !connectedBefore)
+            {
+                triedEmotes = new List<EmoteEnum>();
+            }
+            else if (!isPlayer && connectedBefore)
+            {
+                Debug.Log("doing emote on ai");
+                PerformEmote(requiredEmote);
+            }
+            else if (!player)
+            {
+                //wait for other ai to perform emote
+            }
         }
-        else if(!player && connectedBefore)
+        
+    }
+    private void ConnectionDelay()
+    {
+        if(!canConnect)
         {
-            PerformEmote(requiredEmote);
-        }
-        else if(!player)
-        {
-            //wait for other ai to perform emote
+            newConnectionTimer -= Time.deltaTime;
+            if(newConnectionTimer <= 0)
+            {
+                canConnect = true;
+            }
         }
     }
 
@@ -84,6 +124,7 @@ public class ConnectionManager : MonoBehaviour
                 {
                     Debug.Log("correct emote!");
                     PerformEmote(requiredEmote);
+                    FinishConnection();
                 }
                 else
                 {
@@ -122,7 +163,7 @@ public class ConnectionManager : MonoBehaviour
         }
 
 
-        FinishConnection();
+        
     }
     void SetAnimValue(string name, bool value)
     {
@@ -132,9 +173,14 @@ public class ConnectionManager : MonoBehaviour
     //this should be called at a certain point in the emote animation
     public void FinishConnection()
     {
+        connectTarget = null;
+
+        //begin delay before new connection can be made
+        newConnectionDelay = newConnectionTimer;
+        canConnect = false;
+
         //change color of ai
         //spriteColor = emoteColors[lastTriedEmote];
-
         connectionMode = false;
         connectedBefore = true;
 
@@ -185,26 +231,32 @@ public class ConnectionManager : MonoBehaviour
             connectTarget = null;
         }
     }
-
-    // this function snaps the player to the target so that we can run the animation sequence
-    public void TrySnapTarget()
+    private void ReachedTarget()
     {
-        Debug.Log("TRY SNAP!");
-        if (connectTarget != null)
+        PerformEmote(requiredEmote);
+        FinishConnection();
+    }
+    private void SnapMovement()
+    {
+        if(connectTarget != null)
         {
-            Debug.Log("attempting ai snap");
-            transform.position = connectTarget.SnapPoint.position;
+            if (Vector2.Distance(connectTarget.SnapPoint.position, transform.position) <= distToHardSnap)
+            {
+                rb.velocity = Vector2.zero;
+                transform.position = connectTarget.SnapPoint.position;
+                ReachedTarget();
+                connectTarget = null;
+            }
+            else
+            {
+                Vector2 snapDir = (connectTarget.SnapPoint.position - transform.position).normalized;
 
-            // snap logic here
-            rb.velocity = Vector2.zero;
-            rb.isKinematic = true;
+                rb.AddForce(snapDir * snapMoveSpeed);
 
+            }
 
-
-            // So normally we should allow the player to run some sort of emote logic before ending the emote
-
-
+            rb.velocity = Vector2.ClampMagnitude(rb.velocity, (snapMaxSpeed));
         }
-        
+
     }
 }
