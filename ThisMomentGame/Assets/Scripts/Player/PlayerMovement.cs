@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float maxSpeed = 2f;
 
     float baseDrag;
-    bool moveActivated = true;
+    public bool moveActivated = true;
 
     [Header("Magnet Variables")]
     [SerializeField] float magnetRadius = 5f;

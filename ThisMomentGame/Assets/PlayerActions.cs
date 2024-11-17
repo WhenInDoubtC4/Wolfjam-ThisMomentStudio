@@ -213,6 +213,34 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""System"",
+            ""id"": ""ba62ef96-1bae-474d-a77e-9752a0f3407a"",
+            ""actions"": [
+                {
+                    ""name"": ""Main Menu"",
+                    ""type"": ""Button"",
+                    ""id"": ""ead05484-6275-4437-abe7-237587d574c4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f7abb276-7f12-4702-8e08-701886bed19a"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Main Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -227,12 +255,16 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Emotes_Green = m_Emotes.FindAction("Green", throwIfNotFound: true);
         m_Emotes_Blue = m_Emotes.FindAction("Blue", throwIfNotFound: true);
         m_Emotes_Yellow = m_Emotes.FindAction("Yellow", throwIfNotFound: true);
+        // System
+        m_System = asset.FindActionMap("System", throwIfNotFound: true);
+        m_System_MainMenu = m_System.FindAction("Main Menu", throwIfNotFound: true);
     }
 
     ~@PlayerActions()
     {
         UnityEngine.Debug.Assert(!m_PlayerMovement.enabled, "This will cause a leak and performance issues, PlayerActions.PlayerMovement.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Emotes.enabled, "This will cause a leak and performance issues, PlayerActions.Emotes.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_System.enabled, "This will cause a leak and performance issues, PlayerActions.System.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -414,6 +446,52 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         }
     }
     public EmotesActions @Emotes => new EmotesActions(this);
+
+    // System
+    private readonly InputActionMap m_System;
+    private List<ISystemActions> m_SystemActionsCallbackInterfaces = new List<ISystemActions>();
+    private readonly InputAction m_System_MainMenu;
+    public struct SystemActions
+    {
+        private @PlayerActions m_Wrapper;
+        public SystemActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @MainMenu => m_Wrapper.m_System_MainMenu;
+        public InputActionMap Get() { return m_Wrapper.m_System; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SystemActions set) { return set.Get(); }
+        public void AddCallbacks(ISystemActions instance)
+        {
+            if (instance == null || m_Wrapper.m_SystemActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SystemActionsCallbackInterfaces.Add(instance);
+            @MainMenu.started += instance.OnMainMenu;
+            @MainMenu.performed += instance.OnMainMenu;
+            @MainMenu.canceled += instance.OnMainMenu;
+        }
+
+        private void UnregisterCallbacks(ISystemActions instance)
+        {
+            @MainMenu.started -= instance.OnMainMenu;
+            @MainMenu.performed -= instance.OnMainMenu;
+            @MainMenu.canceled -= instance.OnMainMenu;
+        }
+
+        public void RemoveCallbacks(ISystemActions instance)
+        {
+            if (m_Wrapper.m_SystemActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ISystemActions instance)
+        {
+            foreach (var item in m_Wrapper.m_SystemActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_SystemActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public SystemActions @System => new SystemActions(this);
     public interface IPlayerMovementActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -425,5 +503,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnGreen(InputAction.CallbackContext context);
         void OnBlue(InputAction.CallbackContext context);
         void OnYellow(InputAction.CallbackContext context);
+    }
+    public interface ISystemActions
+    {
+        void OnMainMenu(InputAction.CallbackContext context);
     }
 }
