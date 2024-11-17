@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,3 +37,4 @@ public class WayPoint : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + transform.forward * 0.2f);
     }
 }
+#endif
