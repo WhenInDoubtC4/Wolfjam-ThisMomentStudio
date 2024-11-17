@@ -36,6 +36,8 @@ public class CharacterAgent : MonoBehaviour
 
     private Coroutine timeoutCo;
 
+    EmoteEnum currentColor;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -75,6 +77,8 @@ public class CharacterAgent : MonoBehaviour
         navAgentComponent.updateRotation = false;
 
         //navAgentComponent.SetDestination(new Vector3(5f, 5f, transform.position.z));
+
+        GetComponent<ConnectionManager>().onConnectionFinished.AddListener(OnPlayerIntreact);
     }
 
     void Update()
@@ -102,14 +106,34 @@ public class CharacterAgent : MonoBehaviour
         }
     }
 
-    public void AssignColor()
+    public void AssignColor(EmoteEnum color)
     {
+        Debug.Log(color.ToString());
         //TODO: Stub function for when a color gets assigned to this agent
         Debug.Log(gameObject.name + "Color has been assigned");
 
         hasColorAssigned = true;
 
-        GetComponent<ColorChanger>().AssignNewColor(Color.red);
+        Color col = Color.white;
+        switch (color)
+        {
+            case EmoteEnum.Red:
+                col = Color.red;
+                break;
+            case EmoteEnum.Blue:
+                col = Color.blue;
+                break;
+            case EmoteEnum.Green:
+                col = Color.green;
+                break;
+            case EmoteEnum.Yellow:
+                col = Color.yellow;
+                break;
+        }
+
+        currentColor = color;
+
+        GetComponent<ColorChanger>().AssignNewColor(col);
 
         //Start seeking
         stateMachine.SwitchStates(seekState);
@@ -118,22 +142,22 @@ public class CharacterAgent : MonoBehaviour
     private void TryAssignColorToOther(CharacterAgent other)
     {
         //Check if the initial 4 assignments have been performed here!
-        bool hasInitialAssignments = GameManager.Instance.colorAssignments >= 4;
+        //bool hasInitialAssignments = GameManager.Instance.colorAssignments >= 4;
 
-        if (hasInitialAssignments)
-        {
+        //if (hasInitialAssignments)
+        //{
             if (timeoutCo != null) StopCoroutine(timeoutCo);
             timeoutCo = null;
 
-            other.AssignColor();
+            other.AssignColor(currentColor);
 
-            stateMachine.SwitchStates(wanderState);
-        }
-        else
-        {
+        //    stateMachine.SwitchStates(wanderState);
+        //}
+        //else
+        //{
             //timeoutCo = StartCoroutine(NoInitialAssignmentsTimeoutCo(other));
-            stateMachine.SwitchStates(wanderState);
-        }
+        //    stateMachine.SwitchStates(wanderState);
+        //}
     }
 
     private IEnumerator NoInitialAssignmentsTimeoutCo(CharacterAgent otherAgent)
@@ -143,12 +167,14 @@ public class CharacterAgent : MonoBehaviour
         TryAssignColorToOther(otherAgent);
     }
 
-    public void OnPlayerIntreact()
+    public void OnPlayerIntreact(EmoteEnum type)
     {
         //Already as a color assigned
         if (hasColorAssigned) return;
 
-        AssignColor();
+        Debug.Log(type.ToString());
+
+        AssignColor(type);
         GameManager.Instance.IncrementColorAssignments();
     }
 

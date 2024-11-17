@@ -20,7 +20,7 @@ public class CS_GoToSetColorless : CharacterState
     {
         base.EnterState();
 
-        Debug.Log("Entering CS_GoToSetColorless");
+        //Debug.Log("Entering CS_GoToSetColorless");
         keepChecking = true;
     }
 
@@ -28,7 +28,7 @@ public class CS_GoToSetColorless : CharacterState
     {
         base.ExitState();
 
-        Debug.Log("Exiting CS_GoToSetColorless");
+        //Debug.Log("Exiting CS_GoToSetColorless");
     }
 
     public override void DoUpdate(float dt)
