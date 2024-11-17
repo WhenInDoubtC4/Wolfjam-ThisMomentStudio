@@ -46,14 +46,24 @@ public class ConnectionManager : MonoBehaviour
     [SerializeField] float distToHardSnap = 0.25f; // this is how far the player has to be from a snap point to snap to it
     [SerializeField] float snapResistance = 0.65f;
 
+
+    [SerializeField] private float connectionEndDelay;
+    private float connectionEndTimer;
+    private bool isConnectionEndTimer;
+
+    private float originalXScale;
+
     private void Update()
     {
         SnapMovement();
         ConnectionDelay();
+        ConnectionFinishedDelay();
     }
     // Start is called before the first frame update
     void Start()
     {
+        originalXScale = transform.localScale.x;
+        emoteAnimator = GetComponent<Animator>();
         canConnect = true;
         rb = GetComponent<Rigidbody2D>();
         //emoteAnimator = GetComponent<Animator>();
@@ -89,7 +99,9 @@ public class ConnectionManager : MonoBehaviour
             if (isPlayer)
             {
                 player = newPlayer;
+                
             }
+            
             if (isPlayer && !connectedBefore)
             {
                 triedEmotes = new List<EmoteEnum>();
@@ -133,9 +145,9 @@ public class ConnectionManager : MonoBehaviour
                     Debug.LogError("correct emote!");
                     correctConnectionHappening = true;
 
-                    FindObjectOfType<AnimWatcher>().animFinished.AddListener(EmoteFinished);
-                    // emote handler do emote?
-                    //PerformEmote(requiredEmote);
+                    isConnectionEndTimer = true;
+                    connectionEndTimer = connectionEndDelay;
+                    PerformEmote();
                     
                 }
                 else
@@ -154,11 +166,41 @@ public class ConnectionManager : MonoBehaviour
             }
         }
     }
+    private void PerformEmote()
+    {
+        switch (requiredEmote)
+        {
+            case EmoteEnum.Red:
+                emoteAnimator.SetTrigger("Red");
+                break;
+            case EmoteEnum.Green:
+                emoteAnimator.SetTrigger("Green");
+                break;
+            case EmoteEnum.Blue:
+                emoteAnimator.SetTrigger("Blue");
+                break;
+            case EmoteEnum.Yellow:
+                emoteAnimator.SetTrigger("Yellow");
+                break;
+        }
+    }
+    private void ConnectionFinishedDelay()
+    {
+        if(isConnectionEndTimer)
+        {
+            connectionEndTimer -= Time.deltaTime;
+            if(connectionEndTimer <= 0)
+            {
+                isConnectionEndTimer = false;
+                FinishConnection();
+            }
+        }
+    }
     public void EmoteFinished()
     {
         if (correctConnectionHappening)
         {
-            FinishConnection();
+            //FinishConnection();
             correctConnectionHappening = false;
         }        
     }
@@ -229,9 +271,9 @@ public class ConnectionManager : MonoBehaviour
     }
     private void ReachedTarget()
     {
-        // emote handler do emote?
-        //PerformEmote(requiredEmote);       
-        FinishConnection();
+        isConnectionEndTimer = true;
+        connectionEndTimer = connectionEndDelay;
+        PerformEmote();
     }
     private void SnapMovement()
     {

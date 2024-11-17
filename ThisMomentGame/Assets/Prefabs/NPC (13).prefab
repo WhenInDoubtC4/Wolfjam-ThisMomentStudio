@@ -1442,7 +1442,7 @@ GameObject:
   - component: {fileID: 8873227587639521302}
   - component: {fileID: 1247655062705942676}
   m_Layer: 0
-  m_Name: NPC V2
+  m_Name: NPC (13)
   m_TagString: AIGuy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
