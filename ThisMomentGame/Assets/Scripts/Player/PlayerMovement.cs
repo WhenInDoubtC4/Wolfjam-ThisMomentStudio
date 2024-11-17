@@ -45,10 +45,13 @@ public class PlayerMovement : MonoBehaviour
     public ConnectionPoint connectTarget;
 
     [SerializeField] private Animator myAnimator;
+    [SerializeField] private AudioSource enterConnectionAudio;
+    private float OriginalXScale;
 
     // Start is called before the first frame update
     void Awake()
     {
+        OriginalXScale = transform.localScale.x;
         audioSource = GetComponent<AudioSource>();
 
         actions = new PlayerActions();
@@ -131,12 +134,38 @@ public class PlayerMovement : MonoBehaviour
         return Mathf.Abs(angleToTarget) <= magnetAngle;
     }
 
+    private void UpdateWalk()
+    {
+        if(rb.velocity.magnitude > 0.1f)
+        {
+            myAnimator.SetBool("Walking", true);
+        }
+        else
+        {
+            myAnimator.SetBool("Walking", false);
+        }
+
+            myAnimator.SetBool("WalkingUp", false);
+            if (rb.velocity.x < 0)
+            {
+                transform.localScale = new Vector3(-OriginalXScale, transform.localScale.y, transform.localScale.z);
+            }
+            else
+            {
+                transform.localScale = new Vector3(OriginalXScale, transform.localScale.y, transform.localScale.z);
+            }
+        
+    }
+    private void ReachedConnection()
+    {
+        moveActivated = false;
+        myAnimator.SetBool("Walking", false);
+        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        enterConnectionAudio.Play();
+    }
     void Move()
     {
-        if (moveInput != Vector2.zero)
-        {
-            //Debug.Log("MOVE IS " + moveInput);
-        }
+        UpdateWalk();
 
         float speedClamp = maxSpeed;
 
@@ -172,6 +201,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 rb.velocity = Vector2.zero;
                 transform.position = connectTarget.SnapPoint.position;
+                currentlySnapping = false;
+                ReachedConnection();
             }
             else
             {
