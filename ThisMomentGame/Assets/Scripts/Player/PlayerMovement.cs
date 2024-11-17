@@ -256,6 +256,8 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.Log("SETTING TARGET");
         connectTarget = connectPoint;
+
+        TrySnapTarget();
     }
 
     public void RemoveConnectTarget(ConnectionPoint point)
