@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Playables;
 
 public class TimedTrigger : MonoBehaviour
 {
     [SerializeField] int uses = 0;
     [SerializeField] UnityEvent events;
+    [SerializeField] PlayableDirector intro; 
     
     Coroutine run = null;
     int used = 0;
@@ -36,5 +38,6 @@ public class TimedTrigger : MonoBehaviour
         }
 
         events?.Invoke();
+        intro.Play();
     }
 }
